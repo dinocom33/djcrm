@@ -1,0 +1,2 @@
+# djcrm
+ Simple Django CRM
