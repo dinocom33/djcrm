@@ -1,12 +1,18 @@
+import os
 from pathlib import Path
+
+from django.urls import reverse_lazy
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-1-0sb)p2j_yuey8&my^5#zltzqm_0i=c6s^-35r==056_d8xg5'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = True
+DEBUG = bool(int(os.getenv('DEBUG', 0)))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(' ')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -55,9 +61,13 @@ WSGI_APPLICATION = 'djcrm.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv('DATABASE_NAME', None),
+        "USER": os.getenv('DATABASE_USER', None),
+        "PASSWORD": os.getenv('DATABASE_PASSWORD', None),
+        "HOST": os.getenv('DATABASE_HOST', None),
+        "PORT": os.getenv('DATABASE_PORT', None),
     }
 }
 
@@ -89,8 +99,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static_files'
+STATICFILES_DIRS = [
+    BASE_DIR / "static/",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 60 * 60
+SESSION_SAVE_EVERY_REQUEST = True
+LOGIN_REDIRECT_URL = reverse_lazy('index')
+LOGIN_URL = reverse_lazy('login')
+LOGOUT_REDIRECT_URL = reverse_lazy('login')
+MEDIA_DIR = BASE_DIR / 'media'
+MEDIA_ROOT = BASE_DIR / 'media/'
+MEDIA_URL = '/media/'
