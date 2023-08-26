@@ -2,10 +2,28 @@
 {% load static %}
 {% block title %}Sign Up{% endblock %}
 {% block content %}
-    <h1>Sign In</h1>
-    <form method="post" action=".">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="py-4 px-8 bg-indigo-500 text-white rounded-xl" type="submit">Sign In</button>
-    </form>
+    <div class="h-screen flex justify-center items-center bg-grey-700">
+        <form method="post" action="{% url 'login' %}" class="bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% px-10 py-8 rounded-lg drop-shadow-lg space-y-5">
+            {% csrf_token %}
+            <h1 class="text-2xl font-light text-white">Sign In</h1>
+
+            <div class="pl-2 border border-slate-300 rounded-md">
+                <label for="username"><i class="fa-solid fa-user text-white"></i></label>
+                <input type="text" id="username" name="username" placeholder="username"
+                       class="px-2 py-2 w-96 border-0 focus:outline-0"/>
+            </div>
+
+            <div class="pl-2 border border-slate-300 rounded-md">
+                <label for="email"><i class="fa-solid fa-lock text-white"></i></label>
+                <input type="password" id="password" name="password" placeholder="password"
+                       class="px-2 py-2 w-96 border-0 focus:outline-0"/>
+            </div>
+
+            <button type="submit" class="px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded">
+                <i class="fa-solid fa-right-to-bracket mr-2"></i>
+                Sign In
+            </button>
+            <input type="hidden" name="next" value="{{ next }}" />
+        </form>
+    </div>
 {% endblock %}
