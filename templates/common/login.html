@@ -1,0 +1,11 @@
+{% extends 'common/base.html' %}
+{% load static %}
+{% block title %}Sign Up{% endblock %}
+{% block content %}
+    <h1>Sign In</h1>
+    <form method="post" action=".">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="py-4 px-8 bg-indigo-500 text-white rounded-xl" type="submit">Sign In</button>
+    </form>
+{% endblock %}
