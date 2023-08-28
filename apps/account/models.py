@@ -12,3 +12,10 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = 'CRM User'
+        verbose_name_plural = 'CRM Users'

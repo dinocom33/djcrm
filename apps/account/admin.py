@@ -36,6 +36,8 @@ class UserAdmin(UA):
         ),
     )
     list_display = ("email", "first_name", "last_name", "date_joined", "last_login", "is_staff")
-    ordering = ("-is_staff",)
+    list_filter = ("email", "is_staff", "is_superuser", "is_active")
+    search_fields = ("email", "first_name", "last_name")
+    ordering = ("email", "-is_staff",)
     readonly_fields = ('last_login', 'date_joined')
 

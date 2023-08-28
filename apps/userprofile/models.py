@@ -11,3 +11,7 @@ class Userprofile(models.Model):
         blank=True,
         null=True,
     )
+
+    class Meta:
+        verbose_name = 'User Profile'
+        verbose_name_plural = 'User Profiles'
