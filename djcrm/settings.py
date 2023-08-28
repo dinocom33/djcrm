@@ -10,6 +10,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
+AUTH_USER_MODEL = 'account.User'
+
 DEBUG = bool(int(os.getenv('DEBUG', 0)))
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(' ')
@@ -22,6 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'apps.account',
     'apps.common',
     'apps.userprofile',
     'apps.dashboard',
@@ -64,14 +67,21 @@ WSGI_APPLICATION = 'djcrm.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv('DATABASE_NAME', None),
-        "USER": os.getenv('DATABASE_USER', None),
-        "PASSWORD": os.getenv('DATABASE_PASSWORD', None),
-        "HOST": os.getenv('DATABASE_HOST', None),
-        "PORT": os.getenv('DATABASE_PORT', None),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "djcrm_db",
     }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": os.getenv('DATABASE_NAME', None),
+#         "USER": os.getenv('DATABASE_USER', None),
+#         "PASSWORD": os.getenv('DATABASE_PASSWORD', None),
+#         "HOST": os.getenv('DATABASE_HOST', None),
+#         "PORT": os.getenv('DATABASE_PORT', None),
+#     }
+# }
 
 AUTH_PASSWORD_VALIDATORS = [
     # {
