@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'apps.common',
     'apps.userprofile',
     'apps.dashboard',
+    'apps.lead',
 ]
 
 MIDDLEWARE = [

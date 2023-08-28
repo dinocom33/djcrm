@@ -10,6 +10,7 @@ urlpatterns = [
     path('account/', include('apps.account.urls')),
     path('profile/', include('apps.userprofile.urls')),
     path('dashboard/', include('apps.dashboard.urls')),
+    path('lead/', include('apps.lead.urls')),
 ]
 
 if settings.DEBUG:
