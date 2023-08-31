@@ -15,6 +15,8 @@ class User(AbstractUser):
         ]
     )
 
+    is_agent = models.BooleanField(default=True)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 

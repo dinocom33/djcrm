@@ -7,13 +7,14 @@
               class="bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% px-10 py-8 rounded-lg drop-shadow-lg space-y-5">
             {% csrf_token %}
             <h1 class="text-2xl font-light text-white">Sign In</h1>
-
+            <p style="color: red"><strong>{{ form.username.errors|striptags }}</strong></p>
             <div class="pl-2 border border-slate-300 rounded-md">
                 <label for="username"><i class="fa-solid fa-envelope text-white"></i></label>
                 <input type="text" id="username" name="username" placeholder="email"
                        class="px-2 py-2 w-96 border-0 focus:outline-0"/>
             </div>
 
+            <p style="color: red"><strong>{{ form.password.errors|striptags }}</strong></p>
             <div class="pl-2 border border-slate-300 rounded-md">
                 <label for="email"><i class="fa-solid fa-lock text-white"></i></label>
                 <input type="password" id="password" name="password" placeholder="password"

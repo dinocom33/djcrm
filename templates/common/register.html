@@ -10,17 +10,20 @@
                 <div class="mt-4">
                     <div class="mt-4">
                         <label class="block text-white" for="email">Email</label>
+                        <p style="color: red"><strong>{{ form.email.errors|striptags }}</strong></p>
                             <input type="text" id="email" name="email" placeholder="Email"
                                    class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none
                                    focus:ring-1 focus:ring-blue-600 text-black">
                     </div>
                     <div class="mt-4">
                         <label class="block text-white">Password</label>
+                        <p style="color: red"><strong>{{ form.password1.errors|striptags }}</strong></p>
                             <input type="password" id="password1" name="password1" placeholder="Password"
                                    class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600 text-black">
                     </div>
                     <div class="mt-4">
                         <label class="block text-white">Confirm Password</label>
+                        <p style="color: red"><strong>{{ form.password2.errors|striptags }}</strong></p>
                             <input type="password" id="password2" name="password2" placeholder="Password"
                                    class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600 text-black">
                     </div>

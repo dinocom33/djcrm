@@ -1,4 +1,6 @@
+from django.contrib import messages
 from django.contrib.auth.views import LoginView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -6,7 +8,7 @@ from django.views.generic import CreateView
 from apps.account.forms import UserLoginForm, RegisterForm
 
 
-class RegisterView(CreateView):
+class RegisterView(SuccessMessageMixin, CreateView):
     template_name = 'common/register.html'
     form_class = RegisterForm
     success_url = reverse_lazy('login')
@@ -18,6 +20,8 @@ class RegisterView(CreateView):
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
+        form.save()
+        messages.success(self.request, f'Registration for user with email {form.cleaned_data["email"]} is successful')
         return super(RegisterView, self).form_valid(form)
 
 
@@ -38,5 +42,7 @@ class UserLoginView(LoginView):
         if not remember_me:
             self.request.session.set_expiry(0)
             self.request.session.modified = True
+
+        messages.success(self.request, f'Welcome {form.cleaned_data["username"]}!')
 
         return super(UserLoginView, self).form_valid(form)
