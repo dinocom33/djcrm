@@ -16,7 +16,7 @@ def add_lead(request):
             lead = form.save(commit=False)
             lead.created_by = request.user
             lead.save()
-            return redirect('dashboard')
+            return redirect('all_leads')
     else:
         form = AddLeadForm()
 
@@ -31,12 +31,11 @@ class AllLeadsView(LoginRequiredMixin, ListView):
     model = Lead
     template_name = 'lead/all_leads.html'
     context_object_name = 'all_leads'
-    ordering = ['-created_at']
     paginate_by = 10
 
     def get_queryset(self):
         if self.request.user.is_agent:
-            queryset = Lead.objects.filter(created_by=self.request.user)
+            queryset = Lead.objects.filter(created_by=self.request.user).order_by('-created_at', 'priority')
         else:
-            queryset = Lead.objects.all()
+            queryset = Lead.objects.all().order_by('-created_at', 'priority')
         return queryset
