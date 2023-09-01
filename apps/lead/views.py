@@ -1,10 +1,13 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
-from django.views.generic import ListView
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import ListView, DeleteView
 
-from apps.lead.forms import AddLeadForm
+from apps.lead.forms import AddLeadForm, DeleteLeadForm
 from apps.lead.models import Lead
+
+User = get_user_model()
 
 
 @login_required
@@ -39,6 +42,46 @@ class AllLeadsView(LoginRequiredMixin, ListView):
         else:
             queryset = Lead.objects.all().order_by('-created_at', 'priority')
         return queryset
+
+
+@login_required()
+def lead_details(request, pk):
+    if request.user.is_agent:
+        lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
+    else:
+        lead = get_object_or_404(Lead, pk=pk)
+
+    context = {
+        'lead': lead
+    }
+
+    return render(request, 'lead/lead_details.html', context)
+
+
+@login_required()
+def delete_lead(request, pk):
+    lead = get_object_or_404(Lead, pk=pk)
+    if request.method == 'POST':
+        form = DeleteLeadForm(request.POST, instance=lead)
+        if form.is_valid():
+            form.save()
+            return redirect('all_leads')
+    else:
+        form = DeleteLeadForm(instance=lead)
+
+    context = {
+        'form': form,
+        'lead': lead,
+    }
+
+    return render(request, 'lead/delete_lead.html', context)
+
+
+class DeleteLeadView(LoginRequiredMixin, DeleteView):
+    model = Lead
+    form_class = DeleteLeadForm
+    template_name = 'lead/delete_lead.html'
+    success_url = 'all_leads'
 
 
 class LeadsFilterView(LoginRequiredMixin, ListView):

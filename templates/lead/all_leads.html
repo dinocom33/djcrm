@@ -159,7 +159,7 @@
                         <td class="px-6 py-4">{{ lead.updated_at }}</td>
 
                         <td class="px-6 py-4">
-                            <a href="#"
+                            <a href="{% url 'lead_details' pk=lead.pk %}"
                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                 Details
                             </a>
