@@ -39,3 +39,20 @@ class AllLeadsView(LoginRequiredMixin, ListView):
         else:
             queryset = Lead.objects.all().order_by('-created_at', 'priority')
         return queryset
+
+
+class LeadsFilterView(LoginRequiredMixin, ListView):
+    model = Lead
+    template_name = 'lead/all_leads.html'
+    context_object_name = 'all_leads'
+    paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(LeadsFilterView, self).get_context_data(**kwargs)
+        context['status'] = self.kwargs['status']
+
+        return context
+
+    def get_queryset(self):
+        lead_status = self.kwargs['status']
+        return Lead.objects.filter(status=lead_status).order_by('-created_at')

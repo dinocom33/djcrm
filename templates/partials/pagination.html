@@ -6,10 +6,12 @@
                     Showing
                     <span class="font-medium">{{ page_obj.start_index }}</span>
                     to
-                    <span class="font-medium">{{ page_obj.end_index }} leads, </span>
+                    <span class="font-medium">{{ page_obj.end_index }} </span>
                     of
+                    <span class="font-medium">{{ page_obj.paginator.count }} Leads, </span>
+                    in
                     <span class="font-medium">{{ page_obj.paginator.num_pages }}</span>
-                    pages in total
+                    pages
                 </p>
             </div>
             <div>
