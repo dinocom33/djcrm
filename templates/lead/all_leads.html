@@ -124,6 +124,9 @@
                         Name
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Email
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Priority
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -148,6 +151,8 @@
                     <tr class="border-b dark:bg-gray-900 dark:border-gray-700 bg-gray-100 {% cycle 'bg-white' 'bg-grey-100' %}">
                         <td class="px-6 py-4 font-medium">{{ lead.name }}</td>
 
+                        <td class="px-6 py-4">{{ lead.email }}</td>
+
                         <td class="px-6 py-4">{{ lead.get_priority_display }}</td>
 
                         <td class="px-6 py-4">{{ lead.get_status_display }}</td>
@@ -163,9 +168,9 @@
                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                 Details
                             </a>
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                Edit
-                            </a>
+{#                            <a href="{% url 'edit_lead' lead.pk %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">#}
+{#                                Edit#}
+{#                            </a>#}
                         </td>
                     </tr>
                 {% endfor %}

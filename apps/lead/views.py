@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -19,6 +20,7 @@ def add_lead(request):
             lead = form.save(commit=False)
             lead.created_by = request.user
             lead.save()
+            messages.success(request, f'Lead {lead.name} added successfully')
             return redirect('all_leads')
     else:
         form = AddLeadForm()
@@ -44,7 +46,7 @@ class AllLeadsView(LoginRequiredMixin, ListView):
         return queryset
 
 
-@login_required()
+@login_required
 def lead_details(request, pk):
     if request.user.is_agent:
         lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
@@ -58,13 +60,14 @@ def lead_details(request, pk):
     return render(request, 'lead/lead_details.html', context)
 
 
-@login_required()
+@login_required
 def delete_lead(request, pk):
     lead = get_object_or_404(Lead, pk=pk)
     if request.method == 'POST':
         form = DeleteLeadForm(request.POST, instance=lead)
         if form.is_valid():
             form.save()
+            messages.success(request, f'Lead {lead.name} deleted successfully')
             return redirect('all_leads')
     else:
         form = DeleteLeadForm(instance=lead)
@@ -75,13 +78,6 @@ def delete_lead(request, pk):
     }
 
     return render(request, 'lead/delete_lead.html', context)
-
-
-class DeleteLeadView(LoginRequiredMixin, DeleteView):
-    model = Lead
-    form_class = DeleteLeadForm
-    template_name = 'lead/delete_lead.html'
-    success_url = 'all_leads'
 
 
 class LeadsFilterView(LoginRequiredMixin, ListView):
@@ -99,3 +95,27 @@ class LeadsFilterView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         lead_status = self.kwargs['status']
         return Lead.objects.filter(status=lead_status).order_by('-created_at')
+
+
+@login_required
+def edit_lead(request, pk):
+    if request.user.is_agent:
+        lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
+    else:
+        lead = get_object_or_404(Lead, pk=pk)
+
+    if request.method == 'POST':
+        form = AddLeadForm(request.POST, instance=lead)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Lead {lead.name} updated successfully')
+            return redirect('lead_details', pk=lead.pk)
+    else:
+        form = AddLeadForm(instance=lead)
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'lead/edit_lead.html', context)

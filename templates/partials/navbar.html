@@ -61,12 +61,14 @@
                                 <i class="fa-regular fa-user"></i> My Account
                             </a>
                         </li>
-                        <li>
-                            <a href="{% url 'admin:index' %}"
-                               class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                <i class="fa fa-sliders"></i> Settings
-                            </a>
-                        </li>
+                        {% if request.user.is_staff %}
+                            <li>
+                                <a href="{% url 'admin:index' %}"
+                                   class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    <i class="fa fa-sliders"></i> Settings
+                                </a>
+                            </li>
+                        {% endif %}
                         <li>
                             <a href="#"
                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
