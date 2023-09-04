@@ -110,9 +110,9 @@
                        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                    placeholder="Search for leads">
         </div>
-{#        <a href="{% url '' %}" class="inline-flex items-center p-2 pl-3 text-sm font-medium text-center#}
-{#        rounded-lg border border-transparent bg-teal-500 hover:bg-indigo-500 hover:text-white bg-blue-600 rounded-lg#}
-{#        hover:bg-blue-900 hover:text-white text-white mr-2">Add lead</a>#}
+        <a href="{% url 'add_client' %}" class="inline-flex items-center p-2 pl-3 text-sm font-medium text-center
+        rounded-lg border border-transparent bg-teal-500 hover:bg-indigo-500 hover:text-white bg-blue-600 rounded-lg
+        hover:bg-blue-900 hover:text-white text-white mr-2">Add client</a>
     </div>
 
     {% if all_clients %}
@@ -159,7 +159,7 @@
                         <td class="px-6 py-4">{{ client.updated_at }}</td>
 
                         <td class="px-6 py-4">
-                            <a href="#"
+                            <a href="{% url 'client_details' client.pk %}"
                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                 Details
                             </a>
@@ -175,5 +175,5 @@
     {% else %}
         <div class="text-center">No clients</div>
     {% endif %}
-    {% include 'partials/pagination.html' %}
+    {% include 'partials/clients_pagination.html' %}
 {% endblock %}

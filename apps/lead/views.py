@@ -3,10 +3,11 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DeleteView
 
 from apps.client.models import Client
-from apps.lead.forms import AddLeadForm, DeleteLeadForm
+from apps.lead.forms import AddLeadForm
 from apps.lead.models import Lead
 
 User = get_user_model()
@@ -62,24 +63,12 @@ def lead_details(request, pk):
     return render(request, 'lead/lead_details.html', context)
 
 
-@login_required
-def delete_lead(request, pk):
-    lead = get_object_or_404(Lead, pk=pk)
-    if request.method == 'POST':
-        form = DeleteLeadForm(request.POST, instance=lead)
-        if form.is_valid():
-            form.save()
-            messages.success(request, f'Lead {lead.name} deleted successfully')
-            return redirect('all_leads')
-    else:
-        form = DeleteLeadForm(instance=lead)
+class DeleteLeadView(LoginRequiredMixin, DeleteView):
+    model = Lead
+    template_name = 'lead/delete_lead.html'
 
-    context = {
-        'form': form,
-        'lead': lead,
-    }
-
-    return render(request, 'lead/delete_lead.html', context)
+    def get_success_url(self):
+        return reverse_lazy('all_leads')
 
 
 class LeadsFilterView(LoginRequiredMixin, ListView):
@@ -145,18 +134,3 @@ def convert_to_client(request, pk):
     messages.success(request, f'Lead "{lead.name}" converted to client successfully')
 
     return redirect('all_leads')
-
-
-class AllClientsView(LoginRequiredMixin, ListView):
-    model = Client
-    template_name = 'client/all_clients.html'
-    context_object_name = 'all_clients'
-    paginate_by = 10
-
-    def get_queryset(self):
-        if self.request.user.is_agent:
-            queryset = Client.objects.filter(lead_agent=self.request.user).order_by('-created_at')
-        else:
-            queryset = Client.objects.all().order_by('-created_at')
-
-        return queryset

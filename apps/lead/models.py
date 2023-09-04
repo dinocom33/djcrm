@@ -1,3 +1,4 @@
+from autoslug import AutoSlugField
 from django.contrib.auth import get_user_model
 from django.core import validators
 from django.db import models
@@ -82,6 +83,11 @@ class Lead(models.Model):
         choices=STATUS_CHOICES,
         default=NEW,
     )
+
+    # slug = AutoSlugField(
+    #     populate_from='name',
+    #     unique=True
+    # )
 
     def __str__(self):
         return self.name
