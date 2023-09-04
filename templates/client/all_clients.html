@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block content %}
-    <div class="flex justify-between pb-4 bg-white dark:bg-gray-900 mt-20 ml-2">
+    <div class="flex justify-between pb-4 bg-white dark:bg-gray-900 mt-20 ml-2 mr-2">
         <div>
             <button id="dropdownRadioButton" data-dropdown-toggle="dropdownRadio"
                     class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none
@@ -28,8 +28,7 @@
                  class="z-10 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
                  data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="top"
                  style="position: absolute; inset: auto auto 0 0; margin: 0; transform: translate3d(523px, 3848px, 0px);">
-                <ul class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"
-                    aria-labelledby="dropdownRadioButton">
+                <ul class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRadioButton">
                     <li>
                         <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                             <input id="filter-radio-example-1" type="radio" value="" name="filter-radio"
@@ -38,7 +37,7 @@
                                    focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="filter-radio-example-1"
                                    class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">
-                                <a href="{% url 'all_leads' %}">All</a>
+                                <a href="{% url 'all_clients' %}">All</a>
                             </label>
                         </div>
                     </li>
@@ -111,12 +110,12 @@
                        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                    placeholder="Search for leads">
         </div>
-        <a href="{% url 'add_lead' %}" class="inline-flex items-center p-2 pl-3 text-sm font-medium text-center
-        rounded-lg border border-transparent bg-teal-500 hover:bg-indigo-500 hover:text-white bg-blue-600 rounded-lg
-        hover:bg-blue-900 hover:text-white text-white mr-2">Add lead</a>
+{#        <a href="{% url '' %}" class="inline-flex items-center p-2 pl-3 text-sm font-medium text-center#}
+{#        rounded-lg border border-transparent bg-teal-500 hover:bg-indigo-500 hover:text-white bg-blue-600 rounded-lg#}
+{#        hover:bg-blue-900 hover:text-white text-white mr-2">Add lead</a>#}
     </div>
 
-    {% if all_leads %}
+    {% if all_clients %}
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg mr-2 ml-2">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -128,13 +127,10 @@
                         Email
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Priority
+                        Converted by
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Status
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Agent
+                        Lead Agent
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Created at
@@ -148,27 +144,28 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for lead in all_leads %}
+                {% for client in all_clients %}
                     <tr class="border-b dark:bg-gray-900 dark:border-gray-700 bg-gray-100 {% cycle 'bg-white' 'bg-grey-100' %}">
-                        <td class="px-6 py-4 font-medium">{{ lead.name }}</td>
+                        <td class="px-6 py-4 font-medium">{{ client.name }}</td>
 
-                        <td class="px-6 py-4">{{ lead.email }}</td>
+                        <td class="px-6 py-4">{{ client.email }}</td>
 
-                        <td class="px-6 py-4">{{ lead.get_priority_display }}</td>
+                        <td class="px-6 py-4">{{ client.converted_by }}</td>
 
-                        <td class="px-6 py-4">{{ lead.get_status_display }}</td>
+                        <td class="px-6 py-4">{{ client.lead_agent }}</td>
 
-                        <td class="px-6 py-4">{{ lead.created_by }}</td>
+                        <td class="px-6 py-4">{{ client.created_at }}</td>
 
-                        <td class="px-6 py-4">{{ lead.created_at }}</td>
-
-                        <td class="px-6 py-4">{{ lead.updated_at }}</td>
+                        <td class="px-6 py-4">{{ client.updated_at }}</td>
 
                         <td class="px-6 py-4">
-                            <a href="{% url 'lead_details' pk=lead.pk %}"
+                            <a href="#"
                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                 Details
                             </a>
+{#                            <a href="{% url 'edit_lead' lead.pk %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">#}
+{#                                Edit#}
+{#                            </a>#}
                         </td>
                     </tr>
                 {% endfor %}
@@ -176,7 +173,7 @@
             </table>
         </div>
     {% else %}
-        <div class="text-center">No leads</div>
+        <div class="text-center">No clients</div>
     {% endif %}
     {% include 'partials/pagination.html' %}
 {% endblock %}

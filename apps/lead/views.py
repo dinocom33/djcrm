@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DeleteView
 
+from apps.client.models import Client
 from apps.lead.forms import AddLeadForm, DeleteLeadForm
 from apps.lead.models import Lead
 
@@ -40,9 +41,10 @@ class AllLeadsView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.is_agent:
-            queryset = Lead.objects.filter(created_by=self.request.user).order_by('-created_at', 'priority')
+            queryset = Lead.objects.filter(created_by=self.request.user, converted=False).order_by('-created_at',
+                                                                                                   'priority')
         else:
-            queryset = Lead.objects.all().order_by('-created_at', 'priority')
+            queryset = Lead.objects.filter(converted=False).order_by('-created_at', 'priority')
         return queryset
 
 
@@ -119,3 +121,42 @@ def edit_lead(request, pk):
     }
 
     return render(request, 'lead/edit_lead.html', context)
+
+
+@login_required
+def convert_to_client(request, pk):
+    if request.user.is_agent:
+        lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
+    else:
+        lead = get_object_or_404(Lead, pk=pk)
+
+    Client.objects.create(
+        name=lead.name,
+        email=lead.email,
+        notes=lead.notes,
+        lead_agent=lead.created_by,
+        converted_by=request.user,
+        created_at=lead.created_at
+    )
+
+    lead.converted = True
+    lead.save()
+
+    messages.success(request, f'Lead "{lead.name}" converted to client successfully')
+
+    return redirect('all_leads')
+
+
+class AllClientsView(LoginRequiredMixin, ListView):
+    model = Client
+    template_name = 'client/all_clients.html'
+    context_object_name = 'all_clients'
+    paginate_by = 10
+
+    def get_queryset(self):
+        if self.request.user.is_agent:
+            queryset = Client.objects.filter(lead_agent=self.request.user).order_by('-created_at')
+        else:
+            queryset = Client.objects.all().order_by('-created_at')
+
+        return queryset

@@ -48,6 +48,10 @@ class Lead(models.Model):
         ],
     )
 
+    converted = models.BooleanField(
+        default=False
+    )
+
     notes = models.TextField(
         blank=True,
         null=True,

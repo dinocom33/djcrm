@@ -34,6 +34,11 @@ class LeadAdmin(admin.ModelAdmin):
                 'created_by',
             )
         }),
+        ('Converted', {
+            'fields': (
+                'converted',
+            )
+        }),
         ('Important Dates', {
             'fields': (
                 'created_at',

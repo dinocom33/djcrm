@@ -19,12 +19,22 @@
             <p class="mb-2">{{ lead.created_at|date:"d-M-Y H:i" }}</p>
 
             <p class="font-semibold">Updated at: </p>
-            <p>{{ lead.updated_at|date:"d-M-Y H:i" }}</p>
+            <p class="mb-2">{{ lead.updated_at|date:"d-M-Y H:i" }}</p>
+
+            {% if lead.notes %}
+                <p class="font-semibold">Notes: </p>
+                <p>{{ lead.notes }}</p>
+            {% endif %}
 
             <a href="{% url 'edit_lead' lead.pk %}" class="inline-flex items-center px-6 py-2 font-medium text-center
                     rounded-lg border border-transparent bg-teal-500 hover:bg-indigo-500 hover:text-white
                     bg-blue-600 rounded-lg hover:bg-blue-900 hover:text-white text-white mr-2 mt-2">
                 Edit
+            </a>
+            <a href="{% url 'convert_to_client' lead.pk %}" class="inline-flex items-center px-6 py-2 font-medium text-center
+                    rounded-lg border border-transparent bg-teal-500 hover:bg-teal-500 hover:text-white
+                    bg-teal-600 rounded-lg hover:bg-teal-900 hover:text-white text-white mr-2 mt-2">
+                Convert
             </a>
             <a href="{% url 'delete_lead' lead.pk %}" class="inline-flex items-center px-6 py-2 font-medium text-center
                     rounded-lg border border-transparent bg-red-500 hover:bg-red-500 hover:text-white

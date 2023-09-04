@@ -11,6 +11,7 @@ urlpatterns = [
     path('profile/', include('apps.userprofile.urls')),
     path('dashboard/', include('apps.dashboard.urls')),
     path('leads/', include('apps.lead.urls')),
+    path('client/', include('apps.client.urls')),
 ]
 
 if settings.DEBUG:
