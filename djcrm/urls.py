@@ -7,8 +7,8 @@ from djcrm import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.common.urls')),
-    path('account/', include('apps.account.urls')),
-    path('profile/', include('apps.userprofile.urls')),
+    path('accounts/', include('apps.account.urls')),
+    path('profiles/', include('apps.userprofile.urls')),
     path('dashboard/', include('apps.dashboard.urls')),
     path('leads/', include('apps.lead.urls')),
     path('clients/', include('apps.client.urls')),

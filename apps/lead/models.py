@@ -60,7 +60,6 @@ class Lead(models.Model):
 
     created_by = models.ForeignKey(
         User,
-        related_name='leads',
         on_delete=models.CASCADE
     )
 

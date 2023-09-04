@@ -1,11 +1,16 @@
 from django.contrib import messages
+from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 
 from apps.account.forms import UserLoginForm, RegisterForm
+
+User = get_user_model()
 
 
 class RegisterView(SuccessMessageMixin, CreateView):
@@ -46,3 +51,21 @@ class UserLoginView(LoginView):
         messages.success(self.request, f'Welcome {form.cleaned_data["username"]}!')
 
         return super(UserLoginView, self).form_valid(form)
+
+
+class AllAgentsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = User
+    template_name = 'account/all_agents.html'
+    context_object_name = 'all_agents'
+    paginate_by = 10
+
+    def test_func(self):
+        return self.request.user.is_staff or self.request.user.is_superuser
+
+    def get_queryset(self):
+        queryset = User.objects.filter(is_agent=True).order_by('email')
+
+        return queryset
+
+    def handle_no_permission(self):
+        raise Http404()
