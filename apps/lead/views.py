@@ -7,8 +7,9 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DeleteView
 
 from apps.client.models import Client
-from apps.lead.forms import AddLeadForm
+from apps.lead.forms import AddLeadForm, EditLeadForm
 from apps.lead.models import Lead
+from apps.team.models import Team
 
 User = get_user_model()
 
@@ -21,6 +22,8 @@ def add_lead(request):
         if form.is_valid():
             lead = form.save(commit=False)
             lead.created_by = request.user
+            lead.team = request.user.teams.first()
+            lead.organization = request.user.organizations.first()
             lead.save()
             messages.success(request, f'Lead {lead.name} added successfully')
             return redirect('all_leads')
@@ -96,14 +99,14 @@ def edit_lead(request, pk):
         lead = get_object_or_404(Lead, pk=pk)
 
     if request.method == 'POST':
-        form = AddLeadForm(request.POST, instance=lead)
+        form = EditLeadForm(request.POST, instance=lead)
 
         if form.is_valid():
             form.save()
             messages.success(request, f'Lead {lead.name} updated successfully')
             return redirect('lead_details', pk=lead.pk)
     else:
-        form = AddLeadForm(instance=lead)
+        form = EditLeadForm(instance=lead)
 
     context = {
         'form': form,

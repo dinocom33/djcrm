@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -53,6 +54,12 @@ class UserLoginView(LoginView):
         return super(UserLoginView, self).form_valid(form)
 
 
+@login_required
+def my_profile(request):
+    user = request.user
+    return render(request, 'account/profile.html')
+
+
 class AllAgentsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = User
     template_name = 'account/all_agents.html'
@@ -61,6 +68,11 @@ class AllAgentsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def test_func(self):
         return self.request.user.is_staff or self.request.user.is_superuser
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['teams'] = self.request.user.teams.all()
+        return context
 
     def get_queryset(self):
         queryset = User.objects.filter(is_agent=True).order_by('email')

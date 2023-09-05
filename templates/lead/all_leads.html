@@ -3,7 +3,10 @@
 {% load static %}
 
 {% block content %}
-    <div class="flex justify-between pb-4 bg-white dark:bg-gray-900 mt-20 ml-2">
+    <div class="text-2xl font-light text-center mt-20 mb-6">
+        <h1>All Leads</h1>
+    </div>
+    <div class="flex justify-between pb-4 bg-white dark:bg-gray-900 ml-2">
         <div>
             <button id="dropdownRadioButton" data-dropdown-toggle="dropdownRadio"
                     class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none
@@ -128,6 +131,12 @@
                         Email
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Organization
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Team
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Priority
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -153,6 +162,10 @@
                         <td class="px-6 py-4 font-medium">{{ lead.name }}</td>
 
                         <td class="px-6 py-4">{{ lead.email }}</td>
+
+                        <td class="px-6 py-4">{{ lead.organization }}</td>
+
+                        <td class="px-6 py-4">{{ lead.team }}</td>
 
                         <td class="px-6 py-4">{{ lead.get_priority_display }}</td>
 

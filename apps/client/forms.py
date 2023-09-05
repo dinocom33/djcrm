@@ -7,3 +7,9 @@ class AddClientForm(forms.ModelForm):
     class Meta:
         model = Client
         fields = ['name', 'email', 'notes']
+
+
+class EditClientForm(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = ['name', 'email', 'team', 'notes']

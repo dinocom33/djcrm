@@ -3,6 +3,9 @@ from django.contrib.auth import get_user_model
 from django.core import validators
 from django.db import models
 
+from apps.organization.models import Organization
+from apps.team.models import Team
+
 User = get_user_model()
 
 
@@ -60,6 +63,17 @@ class Lead(models.Model):
 
     created_by = models.ForeignKey(
         User,
+        on_delete=models.CASCADE
+    )
+
+    team = models.ForeignKey(
+        Team,
+        related_name='leads',
+        on_delete=models.CASCADE
+    )
+
+    organization = models.ForeignKey(
+        Organization,
         on_delete=models.CASCADE
     )
 

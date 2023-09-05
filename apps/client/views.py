@@ -5,8 +5,9 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DeleteView, CreateView
 
-from apps.client.forms import AddClientForm
+from apps.client.forms import AddClientForm, EditClientForm
 from apps.client.models import Client
+from apps.team.models import Team
 
 
 class AllClientsView(LoginRequiredMixin, ListView):
@@ -29,12 +30,13 @@ def add_client(request):
     if request.method == 'POST':
         form = AddClientForm(request.POST)
         if form.is_valid():
-            form = form.save(commit=False)
-            form.converted_by = request.user
-            form.lead_agent = request.user
-            form.save()
+            client = form.save(commit=False)
+            client.converted_by = request.user
+            client.lead_agent = request.user
+            client.team = request.user.teams.first()
+            client.save()
 
-            messages.success(request, f'Client "{form.name}" added successfully')
+            messages.success(request, f'Client "{client.name}" added successfully')
 
             return redirect('all_clients')
     else:
@@ -69,13 +71,13 @@ def edit_client(request, pk):
         client = Client.objects.get(pk=pk)
 
     if request.method == 'POST':
-        form = AddClientForm(request.POST, instance=client)
+        form = EditClientForm(request.POST, instance=client)
         if form.is_valid():
             form.save()
             messages.success(request, f'Client "{client.name}" updated successfully')
             return redirect('all_clients')
     else:
-        form = AddClientForm(instance=client)
+        form = EditClientForm(instance=client)
 
     context = {
         'form': form

@@ -4,7 +4,6 @@ from django.contrib.auth.models import Group
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.admin import UserAdmin as UA
 
-
 User = get_user_model()
 
 
@@ -13,19 +12,18 @@ class UserAdmin(UA):
     fieldsets = (
         (None, {"fields": ("password",)}),
         (_("Personal info"), {"fields": ("first_name", "last_name", "email")}),
-        (
-            _("Permissions"),
-            {
-                "fields": (
-                    "is_active",
-                    "is_agent",
-                    "is_staff",
-                    "is_superuser",
-                    "groups",
-                    "user_permissions",
-                ),
-            },
-        ),
+        (_("Permissions"),
+         {
+             "fields": (
+                 "is_active",
+                 "is_agent",
+                 "is_staff",
+                 "is_superuser",
+                 "groups",
+                 "user_permissions",
+             ),
+         },
+         ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
     add_fieldsets = (
@@ -42,6 +40,5 @@ class UserAdmin(UA):
     search_fields = ("email", "first_name", "last_name")
     ordering = ("email", "-is_staff",)
     readonly_fields = ('last_login', 'date_joined')
-
 
 # admin.site.unregister(Group)

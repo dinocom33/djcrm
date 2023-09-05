@@ -1,7 +1,7 @@
 from django.urls import path
 
-from apps.dashboard.views import dashboard
+from apps.dashboard.views import dashboard, DashboardView
 
 urlpatterns = [
-    path('', dashboard, name='dashboard'),
+    path('', DashboardView.as_view(), name='dashboard'),
 ]

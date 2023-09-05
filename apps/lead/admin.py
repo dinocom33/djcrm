@@ -5,7 +5,7 @@ from apps.lead.models import Lead
 
 @admin.register(Lead)
 class LeadAdmin(admin.ModelAdmin):
-    list_display = ['name', 'email', 'created_by', 'priority', 'status', 'created_at', 'updated_at']
+    list_display = ['name', 'email', 'organization', 'team', 'created_by', 'priority', 'status', 'created_at', 'updated_at']
     list_filter = ['name', 'email', 'created_by__email', 'priority', 'status', 'created_at', 'updated_at']
     search_fields = ['name', 'email', 'created_by__email', 'priority', 'status', 'created_at', 'updated_at']
     autocomplete_fields = ['created_by']
@@ -19,6 +19,18 @@ class LeadAdmin(admin.ModelAdmin):
                 'notes',
             )
         }),
+        ('Organization', {
+            'fields': (
+                'organization',
+            )
+        }),
+        (
+            'Team', {
+                'fields': (
+                    'team',
+                )
+            }),
+
         ('Priority', {
             'fields': (
                 'priority',
