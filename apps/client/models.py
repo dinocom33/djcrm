@@ -62,5 +62,12 @@ class Client(models.Model):
     #     unique=True
     # )
 
+    def save(self, *args, **kwargs):
+        if not self.organization_id:
+            # Set the organization based on the user creating the client
+            self.organization = self.converted_by.organizations.first()
+            self.team = self.converted_by.teams.first()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name

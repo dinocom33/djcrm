@@ -151,7 +151,7 @@
                     <tr class="border-b dark:bg-gray-900 dark:border-gray-700 bg-gray-100 {% cycle 'bg-white' 'bg-grey-100' %}">
                         <td class="px-6 py-4 font-medium">{{ agent.first_name }} {{ agent.last_name }}</td>
 
-                        <td class="px-6 py-4">{{ teams }}</td>
+                        <td class="px-6 py-4">{{ agent.teams.first }}</td>
 
                         <td class="px-6 py-4">{{ agent.email }}</td>
 

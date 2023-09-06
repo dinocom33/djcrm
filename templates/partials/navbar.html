@@ -60,28 +60,35 @@
                     </div>
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                         aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
-                        <li>
-                            <a href="{% url 'profile' %}"
-                               class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                <i class="fa-regular fa-user"></i> My Profile
-                            </a>
-                        </li>
                         {% if request.user.is_staff %}
                             <li>
                                 <a href="{% url 'admin:index' %}"
                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                    <i class="fa fa-sliders"></i> Settings
+                                    <i class="fa fa-sliders"></i> Administration
                                 </a>
                             </li>
                         {% endif %}
-                        <li>
-                            <a href="#"
-                               class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                Earnings
-                            </a>
-                        </li>
+                        {% if  request.user.is_org_owner or request.user.is_staff %}
+                            <li>
+                                <a href="{% url 'all_teams' %}"
+                                   class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    <i class="fa fa-users"></i>Teams
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'agents' %}"
+                                   class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    <i class="fa-solid fa-user-group"></i>Agents
+                                </a>
+                            </li>
+                        {% endif %}
+
                     </ul>
                     <div class="py-2">
+                        <a href="{% url 'profile' %}"
+                           class="block text-sm px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            <i class="fa-regular fa-user"></i> My Profile
+                        </a>
                         <a href="{% url 'logout' %}"
                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600
                            dark:text-gray-200 dark:hover:text-white">
@@ -113,16 +120,16 @@
                         <i class="fa fa-dashboard"></i><span> Dashboard</span>
                     </a>
                 </li>
-                {% if request.user.is_staff %}
-                    <li>
-                        <a href="{% url 'agents' %}"
-                           class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent
-                       md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700
-                       dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 hover:underline">
-                            <i class="fa fa-users"></i><span> Agents</span>
-                        </a>
-                    </li>
-                {% endif %}
+                {#                {% if  request.user.is_org_owner or request.user.is_staff %}#}
+                {#                    <li>#}
+                {#                        <a href="{% url 'agents' %}"#}
+                {#                           class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent#}
+                {#                       md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700#}
+                {#                       dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 hover:underline">#}
+                {#                            <i class="fa fa-users"></i><span> Agents</span>#}
+                {#                        </a>#}
+                {#                    </li>#}
+                {#                {% endif %}#}
                 <li>
                     <a href="{% url 'all_leads' %}"
                        class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent

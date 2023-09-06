@@ -7,7 +7,6 @@ from django.views.generic import ListView, DeleteView, CreateView
 
 from apps.client.forms import AddClientForm, EditClientForm
 from apps.client.models import Client
-from apps.team.models import Team
 
 
 class AllClientsView(LoginRequiredMixin, ListView):
@@ -18,7 +17,10 @@ class AllClientsView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.is_agent:
-            queryset = Client.objects.filter(lead_agent=self.request.user).order_by('-created_at')
+            queryset = Client.objects.filter(lead_agent=self.request.user,
+                                             organization=self.request.user.organizations.first(),
+                                             team=self.request.user.teams.first(),
+                                             ).order_by('-created_at')
         else:
             queryset = Client.objects.all().order_by('-created_at')
 
@@ -33,7 +35,6 @@ def add_client(request):
             client = form.save(commit=False)
             client.converted_by = request.user
             client.lead_agent = request.user
-            client.team = request.user.teams.first()
             client.save()
 
             messages.success(request, f'Client "{client.name}" added successfully')
@@ -52,9 +53,16 @@ def add_client(request):
 @login_required
 def client_details(request, pk):
     if request.user.is_agent:
-        client = Client.objects.filter(lead_agent=request.user, pk=pk).get()
+        client = Client.objects.filter(lead_agent=request.user,
+                                       pk=pk,
+                                       organization=request.user.organizations.first(),
+                                       team=request.user.teams.first(),
+                                       ).get()
     else:
-        client = Client.objects.get(pk=pk)
+        client = Client.objects.get(pk=pk,
+                                    organization=request.user.organizations.first(),
+                                    team=request.user.teams.first(),
+                                    )
 
     context = {
         'client': client
@@ -66,9 +74,15 @@ def client_details(request, pk):
 @login_required
 def edit_client(request, pk):
     if request.user.is_agent:
-        client = Client.objects.filter(lead_agent=request.user, pk=pk).get()
+        client = Client.objects.filter(lead_agent=request.user,
+                                       pk=pk,
+                                       organization=request.user.organizations.first(),
+                                       team=request.user.teams.first(),
+                                       ).get()
     else:
-        client = Client.objects.get(pk=pk)
+        client = Client.objects.get(pk=pk,
+                                    organization=request.user.organizations.first(),
+                                    )
 
     if request.method == 'POST':
         form = EditClientForm(request.POST, instance=client)

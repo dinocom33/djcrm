@@ -17,6 +17,8 @@ class User(AbstractUser):
 
     is_agent = models.BooleanField(default=True)
 
+    is_org_owner = models.BooleanField(default=False)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 

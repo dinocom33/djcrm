@@ -6,10 +6,11 @@ User = get_user_model()
 
 class Organization(models.Model):
     name = models.CharField(
-        max_length=255
+        max_length=255,
+        unique=True,
     )
 
-    owner = models.ForeignKey(
+    owner = models.OneToOneField(
         User,
         on_delete=models.CASCADE
     )

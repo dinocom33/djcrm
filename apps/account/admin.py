@@ -16,6 +16,7 @@ class UserAdmin(UA):
          {
              "fields": (
                  "is_active",
+                 "is_org_owner",
                  "is_agent",
                  "is_staff",
                  "is_superuser",
@@ -35,7 +36,7 @@ class UserAdmin(UA):
             },
         ),
     )
-    list_display = ("email", "first_name", "last_name", "date_joined", "last_login", "is_staff", "is_agent")
+    list_display = ("email", "first_name", "last_name", "date_joined", "last_login", "is_staff", "is_agent", "is_org_owner")
     list_filter = ("email", "is_staff", "is_superuser", "is_active")
     search_fields = ("email", "first_name", "last_name")
     ordering = ("email", "-is_staff",)

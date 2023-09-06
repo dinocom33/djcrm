@@ -10,7 +10,6 @@ User = get_user_model()
 
 
 class Lead(models.Model):
-
     LOW = 'low'
     MEDIUM = 'medium'
     HIGH = 'high'
@@ -101,6 +100,11 @@ class Lead(models.Model):
     #     populate_from='name',
     #     unique=True
     # )
+
+    def save(self, *args, **kwargs):
+        if not self.organization_id:
+            self.organization = self.created_by.organizations.first()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
