@@ -10,6 +10,8 @@ class LeadAdmin(admin.ModelAdmin):
     search_fields = ['name', 'email', 'created_by__email', 'priority', 'status', 'created_at', 'updated_at']
     autocomplete_fields = ['created_by']
     ordering = ['-created_at']
+    list_per_page = 15
+    date_hierarchy = 'created_at'
 
     fieldsets = (
         ('Basic Information', {

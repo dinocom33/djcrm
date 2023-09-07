@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.admin import UserAdmin
 
 from apps.organization.models import Organization
+from apps.team.models import Team
 
 User = get_user_model()
 
@@ -47,11 +48,18 @@ class UserAdmin(UserAdmin):
     list_filter = ("email", "team", "is_staff", "is_superuser", "is_active")
     search_fields = ("email", "first_name", "last_name")
     ordering = ("email", "-is_staff",)
+    list_per_page = 15
     readonly_fields = ('last_login', 'date_joined')
 
     def get_organization(self, obj):
         return Organization.objects.filter(members=obj).first()
 
     get_organization.short_description = 'Organization'
+
+
+    # def formfield_for_foreignkey(self, db_field, request, **kwargs):
+    #     if db_field.name == "team":
+    #         kwargs["queryset"] = request.user.organization.team_set.all()
+    #     return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 # admin.site.unregister(Group)

@@ -3,11 +3,12 @@ from django.contrib import admin
 from apps.client.models import Client
 from apps.lead.models import Lead
 from apps.organization.models import Organization
+from apps.team.models import Team
 
 
 @admin.register(Organization)
 class OrganizationAdmin(admin.ModelAdmin):
-    list_display = ['name', 'owner', 'created_at', 'updated_at', 'members_count', 'leads_count', 'clients_count']
+    list_display = ['name', 'owner', 'created_at', 'updated_at', 'teams_count', 'members_count', 'leads_count', 'clients_count']
     list_filter = ['name', 'owner__email', 'created_at', 'updated_at']
     search_fields = ['name', 'owner__email']
 
@@ -25,3 +26,8 @@ class OrganizationAdmin(admin.ModelAdmin):
         return Client.objects.filter(organization=obj).count()
 
     clients_count.short_description = 'Clients'
+
+    def teams_count(self, obj):
+        return Team.objects.filter(organization=obj).count()
+
+    teams_count.short_description = 'Teams'
