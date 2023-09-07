@@ -15,6 +15,11 @@ class User(AbstractUser):
         ]
     )
 
+    team = models.ForeignKey(
+        'team.Team',
+        on_delete=models.CASCADE
+    )
+
     is_agent = models.BooleanField(default=True)
 
     is_org_owner = models.BooleanField(default=False)

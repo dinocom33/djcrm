@@ -1,12 +1,38 @@
 {% extends 'common/base.html' %}
-{% block title %}Add lead{% endblock %}
+{% block title %}Add Lead{% endblock %}
 {% load static %}
 {% block content %}
-    <h1 class="text-2xl font-light text-center mt-20">Add Lead</h1>
+    <div class="container mx-auto p-4 py-20">
+        <h1 class="text-3xl font-semibold text-center mb-4">Add Lead</h1>
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
+            <form method="post" action="{% url 'add_lead' %}" class="space-y-4">
+                {% csrf_token %}
+                <div class="flex flex-col">
+                    <label for="{{ form.name.id_for_label }}" class="text-gray-700">Name</label>
+                    {{ form.name }}
+                </div>
+                <div class="flex flex-col">
+                    <label for="{{ form.email.id_for_label }}" class="text-gray-700">Email</label>
+                    {{ form.email }}
+                </div>
+                <div class="flex flex-col">
+                    <label for="{{ form.priority.id_for_label }}" class="text-gray-700">Priority</label>
+                    {{ form.priority }}
+                </div>
+                <div class="flex flex-col">
+                    <label for="{{ form.status.id_for_label }}" class="text-gray-700">Status</label>
+                    {{ form.status }}
+                </div>
+                <div class="flex flex-col">
+                    <label for="{{ form.notes.id_for_label }}" class="text-gray-700">Notes</label>
+                    {{ form.notes }}
+                </div>
 
-    <form method="post" action="{% url 'add_lead' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="px-5 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-900 rounded">Submit</button>
-    </form>
+                <button type="submit"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-900 transition duration-200">
+                    Submit
+                </button>
+            </form>
+        </div>
+    </div>
 {% endblock %}

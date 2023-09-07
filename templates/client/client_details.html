@@ -1,50 +1,65 @@
 {% extends 'common/base.html' %}
 {% load static %}
-{% block title %}Client details{% endblock %}
+{% block title %}Client Details{% endblock %}
 
 {% block content %}
-    <div class="flex justify-between pb-4 bg-white dark:bg-gray-900 mt-20 ml-2">
-        <div>
-            <h1 class="mb-4 text-2xl font-light text-center">{{ client.name }}</h1>
+    <div class="container mx-auto mt-20 p-4">
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-md">
+            <div class="p-6">
+                <h1 class="text-3xl font-semibold mb-4">{{ client.name }}</h1>
 
-            <p class="font-semibold">Team: </p>
-            <p class="mb-2">{{ client.team }}</p>
+                <div class="mb-4">
+                    <p class="font-semibold">Team:</p>
+                    <p class="text-gray-600">{{ client.team }}</p>
+                </div>
 
-            <p class="font-semibold">Email: </p>
-            <p class="mb-2">{{ client.email }}</p>
+                <div class="mb-4">
+                    <p class="font-semibold">Email:</p>
+                    <p class="text-gray-600">{{ client.email }}</p>
+                </div>
 
-            <p class="font-semibold">Converted by: </p>
-            <p class="mb-2">{{ client.converted_by }}</p>
+                <div class="mb-4">
+                    <p class="font-semibold">Converted by:</p>
+                    <p class="text-gray-600">{{ client.converted_by }}</p>
+                </div>
 
-            <p class="font-semibold">Lead Agent: </p>
-            <p class="mb-2">{{ client.lead_agent }}</p>
+                <div class="mb-4">
+                    <p class="font-semibold">Lead Agent:</p>
+                    <p class="text-gray-600">{{ client.lead_agent }}</p>
+                </div>
 
-            <p class="font-semibold">Created at: </p>
-            <p class="mb-2">{{ client.created_at|date:"d-M-Y H:i" }}</p>
+                <div class="mb-4">
+                    <p class="font-semibold">Created at:</p>
+                    <p class="text-gray-600">{{ client.created_at|date:"d-M-Y H:i" }}</p>
+                </div>
 
-            <p class="font-semibold">Updated at: </p>
-            <p class="mb-2">{{ client.updated_at|date:"d-M-Y H:i" }}</p>
+                <div class="mb-4">
+                    <p class="font-semibold">Updated at:</p>
+                    <p class="text-gray-600">{{ client.updated_at|date:"d-M-Y H:i" }}</p>
+                </div>
 
-            {% if client.notes %}
-                <p class="font-semibold">Notes: </p>
-                <p>{{ client.notes }}</p>
-            {% endif %}
+                {% if client.notes %}
+                    <div class="mb-4">
+                        <p class="font-semibold">Notes:</p>
+                        <p class="text-gray-600">{{ client.notes }}</p>
+                    </div>
+                {% endif %}
 
-            <a href="{% url 'edit_client' client.pk %}" class="inline-flex items-center px-6 py-2 font-medium text-center
-                    rounded-lg border border-transparent bg-teal-500 hover:bg-indigo-500 hover:text-white
-                    bg-blue-600 rounded-lg hover:bg-blue-900 hover:text-white text-white mr-2 mt-2">
-                Edit
-            </a>
-            <a href="{% url 'delete_client' client.pk %}" class="inline-flex items-center px-6 py-2 font-medium text-center
-                    rounded-lg border border-transparent bg-red-500 hover:bg-red-500 hover:text-white
-                    bg-red-600 rounded-lg hover:bg-red-900 hover:text-white text-white mr-2 mt-2">
-                Delete
-            </a>
-            <a href="{% url 'all_clients' %}" class="inline-flex items-center px-6 py-2 font-medium text-center
-                    rounded-lg border border-transparent bg-grey-500 hover:bg-grey-500 hover:text-white
-                    bg-teal-500 rounded-lg hover:bg-green-900 hover:text-white text-white mr-2 mt-2">
-                Back
-            </a>
+                <div class="flex space-x-2">
+                    <a href="{% url 'edit_client' client.pk %}" class="bg-teal-500 hover:bg-indigo-500 text-white
+                    px-4 py-2 rounded-md transition duration-200">
+                        Edit
+                    </a>
+                    <a href="{% url 'delete_client' client.pk %}" class="bg-red-500 hover:bg-red-900 text-white
+                    px-4 py-2 rounded-md transition duration-200">
+                        Delete
+                    </a>
+                    <a href="{% url 'all_clients' %}" class="bg-gray-500 hover:bg-green-900 text-white
+                    px-4 py-2 rounded-md transition duration-200">
+                        Back
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

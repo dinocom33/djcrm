@@ -47,3 +47,15 @@ class UserLoginForm(AuthenticationForm):
     class Meta:
         model = User
         fields = ['username', 'password', 'remember_me']
+
+
+class AddAgentForm(UserCreationForm):
+
+    def __init__(self, user, *args, **kwargs):
+        super(AddAgentForm, self).__init__(*args, **kwargs)
+
+        self.fields['team'].queryset = user.organizations.first().team_set.all()
+
+    class Meta:
+        model = User
+        fields = ['email', 'password1', 'password2', 'team']

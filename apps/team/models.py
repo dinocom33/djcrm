@@ -11,13 +11,15 @@ class Team(models.Model):
         max_length=255
     )
 
-    members = models.ManyToManyField(
-        User,
-        related_name='teams',
-    )
+    # members = models.ForeignKey(
+    #     User,
+    #     related_name='teams',
+    #     on_delete=models.CASCADE,
+    # )
 
     created_by = models.ForeignKey(
         User,
+        related_name='created_by',
         on_delete=models.CASCADE,
     )
 

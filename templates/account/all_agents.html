@@ -111,7 +111,7 @@
                        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                    placeholder="Search for leads">
         </div>
-        <a href="#" class="inline-flex items-center p-2 pl-3 text-sm font-medium text-center
+        <a href="{% url 'add_agent' %}" class="inline-flex items-center p-2 pl-3 text-sm font-medium text-center
         rounded-lg border border-transparent bg-teal-500 hover:bg-indigo-500 hover:text-white bg-blue-600 rounded-lg
         hover:bg-blue-900 hover:text-white text-white mr-2">Add Agent</a>
     </div>
@@ -147,11 +147,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for agent in all_agents %}
+                {% for agent in agents %}
                     <tr class="border-b dark:bg-gray-900 dark:border-gray-700 bg-gray-100 {% cycle 'bg-white' 'bg-grey-100' %}">
                         <td class="px-6 py-4 font-medium">{{ agent.first_name }} {{ agent.last_name }}</td>
 
-                        <td class="px-6 py-4">{{ agent.teams.first }}</td>
+                        <td class="px-6 py-4">{{ agent.team }}</td>
 
                         <td class="px-6 py-4">{{ agent.email }}</td>
 

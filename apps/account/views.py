@@ -9,7 +9,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 
-from apps.account.forms import UserLoginForm, RegisterForm
+from apps.account.forms import UserLoginForm, RegisterForm, AddAgentForm
+from apps.organization.models import Organization
 
 User = get_user_model()
 
@@ -26,6 +27,8 @@ class RegisterView(SuccessMessageMixin, CreateView):
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
+        # form.instance.organization = self.request.user.organization
+        # form.team = self.request.user.team
         form.save()
         messages.success(self.request, f'Registration for user with email {form.cleaned_data["email"]} is successful')
         return super(RegisterView, self).form_valid(form)
@@ -71,7 +74,8 @@ class AllAgentsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['teams'] = self.request.user.teams.all()
+        context['organization'] = self.request.user.organization
+        context['agents'] = self.request.user.organization.members.all()
         return context
 
     def get_queryset(self):
@@ -81,3 +85,27 @@ class AllAgentsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def handle_no_permission(self):
         raise Http404()
+
+
+@login_required
+def create_agent(request):
+    if request.method == 'POST':
+        form = AddAgentForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            organization = Organization.objects.filter(members=request.user).first()
+            members = list(organization.members.all())
+            members.append(form.instance)
+            organization.members.set(members)
+
+            messages.success(request, f'Agent {form.cleaned_data["email"]} created successfully')
+
+            return redirect('agents')
+    else:
+        form = AddAgentForm(user=request.user)
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'account/add_agent.html', context)

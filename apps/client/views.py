@@ -17,12 +17,15 @@ class AllClientsView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.is_agent:
-            queryset = Client.objects.filter(lead_agent=self.request.user,
-                                             organization=self.request.user.organizations.first(),
-                                             team=self.request.user.teams.first(),
-                                             ).order_by('-created_at')
+            queryset = Client.objects.filter(
+                # lead_agent=self.request.user,
+                organization=self.request.user.organizations.first(),
+                # team=self.request.user.team,
+            ).order_by('-created_at')
         else:
-            queryset = Client.objects.all().order_by('-created_at')
+            queryset = Client.objects.filter(
+                organization=self.request.user.organization
+            ).order_by('-created_at')
 
         return queryset
 
@@ -56,12 +59,11 @@ def client_details(request, pk):
         client = Client.objects.filter(lead_agent=request.user,
                                        pk=pk,
                                        organization=request.user.organizations.first(),
-                                       team=request.user.teams.first(),
+                                       team=request.user.team,
                                        ).get()
     else:
         client = Client.objects.get(pk=pk,
                                     organization=request.user.organizations.first(),
-                                    team=request.user.teams.first(),
                                     )
 
     context = {
@@ -77,7 +79,7 @@ def edit_client(request, pk):
         client = Client.objects.filter(lead_agent=request.user,
                                        pk=pk,
                                        organization=request.user.organizations.first(),
-                                       team=request.user.teams.first(),
+                                       team=request.user.team,
                                        ).get()
     else:
         client = Client.objects.get(pk=pk,
@@ -89,7 +91,7 @@ def edit_client(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, f'Client "{client.name}" updated successfully')
-            return redirect('all_clients')
+            return redirect('client_details', pk=client.pk)
     else:
         form = EditClientForm(instance=client)
 

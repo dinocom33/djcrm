@@ -64,9 +64,11 @@ class Client(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.organization_id:
-            # Set the organization based on the user creating the client
             self.organization = self.converted_by.organizations.first()
-            self.team = self.converted_by.teams.first()
+
+        if not self.team_id:
+            self.team = self.converted_by.team
+
         super().save(*args, **kwargs)
 
     def __str__(self):

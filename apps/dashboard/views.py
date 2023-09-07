@@ -10,44 +10,22 @@ from apps.lead.models import Lead
 User = get_user_model()
 
 
-# @login_required
-# def dashboard(request):
-#     if request.user.is_agent:
-#         leads = Lead.objects.filter(organization=request.user.organizations.first(),
-#                                     team=request.user.teams.first(),
-#                                     created_by=request.user,
-#                                     ).order_by('-created_at')
-#         clients = Client.objects.filter(organization=request.user.organizations.first(),
-#                                         team=request.user.teams.first(),
-#                                         lead_agent=request.user
-#                                         ).order_by('-created_at')
-#     else:
-#         leads = Lead.objects.filter(organization=request.user.organizations.first()).order_by('-created_at')
-#         clients = Client.objects.filter(organization=request.user.organizations.first()).order_by('-created_at')
-#
-#     context = {
-#         'leads': leads,
-#         'clients': clients
-#     }
-#
-#     return render(request, 'dashboard/dashboard.html', context)
-
-
 class DashboardView(LoginRequiredMixin, ListView):
     template_name = 'dashboard/dashboard.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_agent:
-            context['leads'] = Lead.objects.filter(organization=self.request.user.organizations.first(),
-                                                   team=self.request.user.teams.first(),
-                                                   created_by=self.request.user,
-                                                   converted=False).order_by(
-                '-created_at')[0:5]
-            context['clients'] = Client.objects.filter(lead_agent=self.request.user,
-                                                       organization=self.request.user.organizations.first(),
-                                                       team=self.request.user.teams.first(),
-                                                       ).order_by('-created_at')[0:5]
+            context['leads'] = Lead.objects.filter(
+                organization=self.request.user.organizations.first(),
+                # team=self.request.user.team,
+                # created_by=self.request.user,
+                converted=False).order_by('-created_at')[0:5]
+            context['clients'] = Client.objects.filter(
+                # lead_agent=self.request.user,
+                organization=self.request.user.organizations.first(),
+                # team=self.request.user.team,
+            ).order_by('-created_at')[0:5]
             context['organization'] = self.request.user.organizations.filter(members=self.request.user).get()
         else:
             context['leads'] = Lead.objects.filter(converted=False,
@@ -55,7 +33,7 @@ class DashboardView(LoginRequiredMixin, ListView):
                                                    ).order_by('-created_at')[0:5]
             context['clients'] = Client.objects.filter(organization=self.request.user.organizations.first()
                                                        ).order_by('-created_at')[0:5]
-            context['agents'] = User.objects.filter(organizations=self.request.user.organizations.first(),
+            context['agents'] = User.objects.filter(organizations=self.request.user.organization,
                                                     )
             context['organization'] = self.request.user.organizations.filter(members=self.request.user).get()
         return context
@@ -63,7 +41,7 @@ class DashboardView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         if self.request.user.is_agent:
             queryset = Lead.objects.filter(organization=self.request.user.organizations.first(),
-                                           team=self.request.user.teams.first(),
+                                           team=self.request.user.team,
                                            created_by=self.request.user,
                                            converted=False
                                            ).order_by('-created_at',

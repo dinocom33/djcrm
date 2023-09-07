@@ -13,9 +13,8 @@ from apps.lead.models import Lead
 
 @login_required
 def add_lead(request):
-
     if request.method == 'POST':
-        form = AddLeadForm(user=request.user, data=request.POST)
+        form = AddLeadForm(request.POST)
 
         if form.is_valid():
             print(request.user.organizations.first())
@@ -25,7 +24,7 @@ def add_lead(request):
             messages.success(request, f'Lead {lead.name} added successfully')
             return redirect('all_leads')
     else:
-        form = AddLeadForm(user=request.user)
+        form = AddLeadForm()
 
     context = {
         'form': form,
@@ -43,32 +42,35 @@ class AllLeadsView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         if self.request.user.is_agent:
             queryset = Lead.objects.filter(
-                                            created_by=self.request.user,
-                                            converted=False,
-                                            organization=self.request.user.organizations.first(),
-                                            team=self.request.user.teams.first(),
-                                        ).order_by('-created_at', 'priority')
+                # created_by=self.request.user,
+                organization=self.request.user.organizations.first(),
+                # team=self.request.user.team,
+            ).order_by('-created_at', 'priority')
         else:
-            queryset = Lead.objects.filter(converted=False,
-                                           organization=self.request.user.organizations.first()
-                                           ).order_by('-created_at', 'priority')
+            queryset = Lead.objects.filter(
+                converted=False,
+                organization=self.request.user.organization,
+            ).order_by('-created_at', 'priority')
+
         return queryset
 
 
 @login_required
 def lead_details(request, pk):
     if request.user.is_agent:
-        lead = get_object_or_404(Lead,
-                                 created_by=request.user,
-                                 organization=request.user.organizations.first(),
-                                 team=request.user.teams.first(),
-                                 pk=pk,
-                                 )
+        lead = get_object_or_404(
+            Lead,
+            created_by=request.user,
+            organization=request.user.organizations.first(),
+            # team=request.user.teams.first(),
+            pk=pk,
+        )
     else:
-        lead = get_object_or_404(Lead,
-                                 organization=request.user.organizations.first(),
-                                 pk=pk,
-                                 )
+        lead = get_object_or_404(
+            Lead,
+            organization=request.user.organizations.first(),
+            pk=pk,
+        )
 
     context = {
         'lead': lead
@@ -105,27 +107,29 @@ class LeadsFilterView(LoginRequiredMixin, ListView):
 @login_required
 def edit_lead(request, pk):
     if request.user.is_agent:
-        lead = get_object_or_404(Lead,
-                                 created_by=request.user,
-                                 pk=pk,
-                                 organization=request.user.organizations.first(),
-                                 team=request.user.teams.first(),
-                                 )
+        lead = get_object_or_404(
+            Lead,
+            created_by=request.user,
+            pk=pk,
+            organization=request.user.organizations.first(),
+            team=request.user.team
+        )
     else:
-        lead = get_object_or_404(Lead,
-                                 pk=pk,
-                                 organization=request.user.organizations.first(),
-                                 )
+        lead = get_object_or_404(
+            Lead,
+            pk=pk,
+            organization=request.user.organizations.first(),
+        )
 
     if request.method == 'POST':
-        form = EditLeadForm(user=request.user, data=request.POST, instance=lead)
+        form = EditLeadForm(data=request.POST, instance=lead)
 
         if form.is_valid():
             form.save()
             messages.success(request, f'Lead {lead.name} updated successfully')
             return redirect('lead_details', pk=lead.pk)
     else:
-        form = EditLeadForm(user=request.user, instance=lead)
+        form = EditLeadForm(instance=lead)
 
     context = {
         'form': form,
@@ -137,29 +141,33 @@ def edit_lead(request, pk):
 @login_required
 def convert_to_client(request, pk):
     if request.user.is_agent:
-        lead = get_object_or_404(Lead,
-                                 created_by=request.user,
-                                 pk=pk,
-                                 organization=request.user.organizations.first(),
-                                 team=request.user.teams.first(),
-                                 )
+        lead = get_object_or_404(
+            Lead,
+            created_by=request.user,
+            pk=pk,
+            organization=request.user.organizations.first(),
+            # team=request.user.teams.first(),
+        )
     else:
-        lead = get_object_or_404(Lead,
-                                 pk=pk,
-                                 organization=request.user.organizations.first(),
-                                 )
+        lead = get_object_or_404(
+            Lead,
+            pk=pk,
+            organization=request.user.organizations.first(),
+        )
 
     Client.objects.create(
         name=lead.name,
         email=lead.email,
         notes=lead.notes,
+        team=lead.team,
         lead_agent=lead.created_by,
         converted_by=request.user,
         created_at=lead.created_at
     )
 
-    lead.converted = True
-    lead.save()
+    # lead.converted = True
+    # lead.save()
+    lead.delete()
 
     messages.success(request, f'Lead "{lead.name}" converted to client successfully')
 

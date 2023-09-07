@@ -104,6 +104,10 @@ class Lead(models.Model):
     def save(self, *args, **kwargs):
         if not self.organization_id:
             self.organization = self.created_by.organizations.first()
+
+        if not self.team_id:
+            self.team = self.created_by.team
+
         super().save(*args, **kwargs)
 
     def __str__(self):
