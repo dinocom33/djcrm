@@ -1,55 +1,69 @@
 {% extends 'common/base.html' %}
 {% load static %}
-{% block title %}Lead details{% endblock %}
+{% block title %}Lead Details{% endblock %}
 
 {% block content %}
-    <div class="flex justify-between pb-4 bg-white dark:bg-gray-900 mt-20 ml-2">
-        <div>
-            <h1 class="mb-4 text-2xl font-light text-center">{{ lead.name }}</h1>
+    <div class="container mx-auto mt-20 p-4">
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-md">
+            <div class="p-6">
+                <h1 class="text-3xl font-semibold text-center mb-4">{{ lead.name }}</h1>
 
-            <p class="font-semibold">Team:</p>
-            <p class="mb-2">{{ lead.team }}</p>
+                <div class="mb-4">
+                    <p class="font-semibold text-gray-700">Team:</p>
+                    <p class="text-gray-600">{{ lead.team }}</p>
+                </div>
 
-            <p class="font-semibold">Priority:</p>
-            <p class="mb-2">{{ lead.priority }}</p>
+                <div class="mb-4">
+                    <p class="font-semibold text-gray-700">Priority:</p>
+                    <p class="text-gray-600">{{ lead.priority }}</p>
+                </div>
 
-            <p class="font-semibold">Status:</p>
-            <p class="mb-2">{{ lead.status }}</p>
+                <div class="mb-4">
+                    <p class="font-semibold text-gray-700">Status:</p>
+                    <p class="text-gray-600">{{ lead.status }}</p>
+                </div>
 
-            <p class="font-semibold">Created by: </p>
-            <p class="mb-2">{{ lead.created_by }}</p>
+                <div class="mb-4">
+                    <p class="font-semibold text-gray-700">Created by:</p>
+                    <p class="text-gray-600">{{ lead.created_by }}</p>
+                </div>
 
-            <p class="font-semibold">Created at: </p>
-            <p class="mb-2">{{ lead.created_at|date:"d-M-Y H:i" }}</p>
+                <div class="mb-4">
+                    <p class="font-semibold text-gray-700">Created at:</p>
+                    <p class="text-gray-600">{{ lead.created_at|date:"d-M-Y H:i" }}</p>
+                </div>
 
-            <p class="font-semibold">Updated at: </p>
-            <p class="mb-2">{{ lead.updated_at|date:"d-M-Y H:i" }}</p>
+                <div class="mb-4">
+                    <p class="font-semibold text-gray-700">Updated at:</p>
+                    <p class="text-gray-600">{{ lead.updated_at|date:"d-M-Y H:i" }}</p>
+                </div>
 
-            {% if lead.notes %}
-                <p class="font-semibold">Notes: </p>
-                <p>{{ lead.notes }}</p>
-            {% endif %}
+                {% if lead.notes %}
+                    <div class="mb-4">
+                        <p class="font-semibold text-gray-700">Notes:</p>
+                        <p class="text-gray-600">{{ lead.notes }}</p>
+                    </div>
+                {% endif %}
 
-            <a href="{% url 'edit_lead' lead.pk %}" class="inline-flex items-center px-6 py-2 font-medium text-center
-                    rounded-lg border border-transparent bg-teal-500 hover:bg-indigo-500 hover:text-white
-                    bg-blue-600 rounded-lg hover:bg-blue-900 hover:text-white text-white mr-2 mt-2">
-                Edit
-            </a>
-            <a href="{% url 'convert_to_client' lead.pk %}" class="inline-flex items-center px-6 py-2 font-medium text-center
-                    rounded-lg border border-transparent bg-teal-500 hover:bg-teal-500 hover:text-white
-                    bg-teal-600 rounded-lg hover:bg-teal-900 hover:text-white text-white mr-2 mt-2">
-                Convert
-            </a>
-            <a href="{% url 'delete_lead' lead.pk %}" class="inline-flex items-center px-6 py-2 font-medium text-center
-                    rounded-lg border border-transparent bg-red-500 hover:bg-red-500 hover:text-white
-                    bg-red-600 rounded-lg hover:bg-red-900 hover:text-white text-white mr-2 mt-2">
-                Delete
-            </a>
-            <a href="{% url 'all_leads' %}" class="inline-flex items-center px-6 py-2 font-medium text-center
-                    rounded-lg border border-transparent bg-grey-500 hover:bg-grey-500 hover:text-white
-                    bg-teal-500 rounded-lg hover:bg-green-900 hover:text-white text-white mr-2 mt-2">
-                Back
-            </a>
+                <div class="flex justify-center space-x-4 mt-6">
+                    <a href="{% url 'edit_lead' lead.pk %}"
+                       class="bg-teal-500 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg transition duration-200">
+                        Edit
+                    </a>
+                    <a href="{% url 'convert_to_client' lead.pk %}"
+                       class="bg-teal-500 hover:bg-teal-900 text-white px-4 py-2 rounded-lg transition duration-200">
+                        Convert
+                    </a>
+                    <a href="{% url 'delete_lead' lead.pk %}"
+                       class="bg-red-500 hover:bg-red-900 text-white px-4 py-2 rounded-lg transition duration-200">
+                        Delete
+                    </a>
+                    <a href="{% url 'all_leads' %}"
+                       class="bg-gray-500 hover:bg-green-900 text-white px-4 py-2 rounded-lg transition duration-200">
+                        Back
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

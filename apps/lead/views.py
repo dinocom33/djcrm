@@ -124,6 +124,7 @@ def edit_lead(request, pk):
 
     context = {
         'form': form,
+        'lead': lead,
     }
 
     return render(request, 'lead/edit_lead.html', context)

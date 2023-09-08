@@ -25,3 +25,6 @@ class EditLeadForm(forms.ModelForm):
     class Meta:
         model = Lead
         fields = ('name', 'email', 'priority', 'status', 'notes')
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control rounded-mb-0'}),
+        }
