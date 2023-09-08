@@ -1,9 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DeleteView, CreateView
+from django.views.generic import ListView, DeleteView, DetailView
 
 from apps.client.forms import AddClientForm, EditClientForm
 from apps.client.models import Client
@@ -53,24 +53,20 @@ def add_client(request):
     return render(request, 'client/add_client.html', context)
 
 
-@login_required
-def client_details(request, pk):
-    if request.user.is_agent:
-        client = Client.objects.filter(lead_agent=request.user,
-                                       pk=pk,
-                                       organization=request.user.organizations.first(),
-                                       team=request.user.team,
-                                       ).get()
-    else:
-        client = Client.objects.get(pk=pk,
-                                    organization=request.user.organizations.first(),
-                                    )
+class ClientDetailsView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Client
+    template_name = 'client/client_details.html'
+    context_object_name = 'client'
 
-    context = {
-        'client': client
-    }
+    def test_func(self):
+        return self.request.user.is_org_owner or self.request.user.is_staff or self.request.user.clients.filter(
+            pk=self.kwargs['pk']).get()
 
-    return render(request, 'client/client_details.html', context)
+    def get_context_data(self, **kwargs):
+        context = super(ClientDetailsView, self).get_context_data(**kwargs)
+        context['client'] = Client.objects.filter(pk=self.kwargs['pk']).get()
+
+        return context
 
 
 @login_required

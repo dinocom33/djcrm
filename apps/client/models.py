@@ -40,7 +40,7 @@ class Client(models.Model):
 
     team = models.ForeignKey(
         Team,
-        related_name='teams',
+        related_name='clients',
         on_delete=models.CASCADE
     )
 

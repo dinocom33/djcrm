@@ -135,66 +135,128 @@
             </div>
         </div>
         {% if not request.user.is_agent %}
-            <hr>
-            <h2 class="mb-6 text-lg mt-4">Agents</h2>
-            {% if agents %}
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg mr-2 ml-2">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">
-                                Name
-                            </th>
+            <div class="flex mt-4 mb-4">
+                <div class="w-1/2 clients scrollable-container">
+                    <h2 class="mb-6 text-lg mt-4">Agents</h2>
+                    {% if agents %}
+                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg mr-2 ml-2">
+                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        Name
+                                    </th>
 
-                            <th scope="col" class="px-6 py-3">
-                                Team
-                            </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Team
+                                    </th>
 
-                            <th scope="col" class="px-6 py-3">
-                                Email
-                            </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Email
+                                    </th>
 
-                            <th scope="col" class="px-6 py-3">
-                                Leads
-                            </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Leads
+                                    </th>
 
-                            <th scope="col" class="px-6 py-3">
-                                Clients
-                            </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Clients
+                                    </th>
 
-                            <th scope="col" class="px-6 py-3">
-                                Actions
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for agent in agents %}
-                            <tr class="border-b dark:bg-gray-900 dark:border-gray-700 bg-gray-100 {% cycle 'bg-white' 'bg-grey-100' %}">
-                                <td class="px-6 py-4 font-medium">{{ agent.first_name }} {{ agent.last_name }}</td>
+                                    <th scope="col" class="px-6 py-3">
+                                        Actions
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for agent in agents %}
+                                    <tr class="border-b dark:bg-gray-900 dark:border-gray-700 bg-gray-100 {% cycle 'bg-white' 'bg-grey-100' %}">
+                                        <td class="px-6 py-4 font-medium">{{ agent.first_name }} {{ agent.last_name }}</td>
 
-                                <td class="px-6 py-4">{{ agent.team }}</td>
+                                        <td class="px-6 py-4">{{ agent.team }}</td>
 
-                                <td class="px-6 py-4">{{ agent.email }}</td>
+                                        <td class="px-6 py-4">{{ agent.email }}</td>
 
-                                <td class="px-6 py-4">{{ agent.lead_set.count }}</td>
+                                        <td class="px-6 py-4">{{ agent.lead_set.count }}</td>
 
-                                <td class="px-6 py-4">{{ agent.client_set.count }}</td>
+                                        <td class="px-6 py-4">{{ agent.client_set.count }}</td>
 
-                                <td class="px-6 py-4">
-                                    <a href="#"
-                                       class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                        Details
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                                        <td class="px-6 py-4">
+                                            <a href="#"
+                                               class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                                Details
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center">No Agents</div>
+                    {% endif %}
                 </div>
-            {% else %}
-                <div class="text-center">No Agents</div>
-            {% endif %}
+                <div class="w-1/2 clients scrollable-container">
+                    <h2 class="mb-6 text-lg mt-4">Teams</h2>
+                    {% if teams %}
+                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg mr-2 ml-2">
+                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        Name
+                                    </th>
+
+                                    <th scope="col" class="px-6 py-3">
+                                        Organization
+                                    </th>
+
+                                    <th scope="col" class="px-6 py-3">
+                                        Agents
+                                    </th>
+
+                                    <th scope="col" class="px-6 py-3">
+                                        Leads
+                                    </th>
+
+                                    <th scope="col" class="px-6 py-3">
+                                        Clients
+                                    </th>
+
+                                    <th scope="col" class="px-6 py-3">
+                                        Actions
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for team in teams %}
+                                    <tr class="border-b dark:bg-gray-900 dark:border-gray-700 bg-gray-100 {% cycle 'bg-white' 'bg-grey-100' %}">
+                                        <td class="px-6 py-4 font-medium">{{ team.name }}</td>
+
+                                        <td class="px-6 py-4">{{ team.organization }}</td>
+
+                                        <td class="px-6 py-4">{{ team.agents.count }}</td>
+
+                                        <td class="px-6 py-4">{{ team.leads.count }}</td>
+
+                                        <td class="px-6 py-4">{{ team.clients.count }}</td>
+
+                                        <td class="px-6 py-4">
+                                            <a href="#"
+                                               class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                                Details
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center">No Teams</div>
+                    {% endif %}
+                </div>
+            </div>
         {% endif %}
-    </div>
 
 {% endblock %}

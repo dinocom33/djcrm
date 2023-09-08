@@ -1,10 +1,9 @@
 from django.contrib import messages
-from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DeleteView
+from django.views.generic import ListView, DeleteView, DetailView
 
 from apps.client.models import Client
 from apps.lead.forms import AddLeadForm, EditLeadForm
@@ -40,43 +39,35 @@ class AllLeadsView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
+        queryset = super(AllLeadsView, self).get_queryset()
         if self.request.user.is_agent:
-            queryset = Lead.objects.filter(
+            queryset = queryset.filter(
                 # created_by=self.request.user,
                 organization=self.request.user.organizations.first(),
                 # team=self.request.user.team,
             ).order_by('-created_at', 'priority')
         else:
-            queryset = Lead.objects.filter(
-                converted=False,
+            queryset = queryset.filter(
                 organization=self.request.user.organization,
             ).order_by('-created_at', 'priority')
 
         return queryset
 
 
-@login_required
-def lead_details(request, pk):
-    if request.user.is_agent:
-        lead = get_object_or_404(
-            Lead,
-            created_by=request.user,
-            organization=request.user.organizations.first(),
-            # team=request.user.teams.first(),
-            pk=pk,
-        )
-    else:
-        lead = get_object_or_404(
-            Lead,
-            organization=request.user.organizations.first(),
-            pk=pk,
-        )
+class DetailLeadView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Lead
+    template_name = 'lead/lead_details.html'
+    context_object_name = 'lead'
 
-    context = {
-        'lead': lead
-    }
+    def test_func(self):
+        return self.request.user.is_org_owner or self.request.user.is_staff or self.request.user.lead_set.filter(
+            pk=self.kwargs['pk']).get()
 
-    return render(request, 'lead/lead_details.html', context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(DetailLeadView, self).get_context_data(**kwargs)
+        context['lead'] = Lead.objects.filter(pk=self.kwargs['pk']).get()
+
+        return context
 
 
 class DeleteLeadView(LoginRequiredMixin, DeleteView):

@@ -67,7 +67,7 @@ class Lead(models.Model):
 
     team = models.ForeignKey(
         Team,
-        related_name='leads',
+        related_name='teams',
         on_delete=models.CASCADE
     )
 

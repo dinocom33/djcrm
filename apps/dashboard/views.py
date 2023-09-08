@@ -36,6 +36,7 @@ class DashboardView(LoginRequiredMixin, ListView):
             context['agents'] = User.objects.filter(organizations=self.request.user.organization,
                                                     )
             context['organization'] = self.request.user.organizations.filter(members=self.request.user).get()
+            context['teams'] = self.request.user.organization.team_set.all()
         return context
 
     def get_queryset(self):
