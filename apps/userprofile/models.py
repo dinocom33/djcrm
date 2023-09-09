@@ -13,6 +13,11 @@ class Userprofile(models.Model):
         null=True,
     )
 
+    bio = models.TextField(
+        blank=True,
+        null=True,
+    )
+
     class Meta:
         verbose_name = 'User Profile'
         verbose_name_plural = 'User Profiles'

@@ -46,7 +46,7 @@ class UserLoginForm(AuthenticationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'password', 'remember_me']
+        fields = ['username', 'password', 'remember_me', 'first_name', 'last_name']
 
 
 class AddAgentForm(UserCreationForm):
@@ -59,3 +59,9 @@ class AddAgentForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['email', 'password1', 'password2', 'team']
+
+
+class UserAccountForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']

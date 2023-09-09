@@ -3,6 +3,10 @@
 {% block title %}Home{% endblock %}
 {% block content %}
     <div class="text-2xl font-light text-center mt-20">
-        <h1>Welcome to {{ organization.name }}</h1>
+        {% if request.user.is_authenticated %}
+            <h1>Welcome to {{ organization.name }}</h1>
+        {% else %}
+            <h1>Welcome to CRM</h1>
+        {% endif %}
     </div>
 {% endblock %}

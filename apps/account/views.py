@@ -9,8 +9,10 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 
-from apps.account.forms import UserLoginForm, RegisterForm, AddAgentForm
+from apps.account.forms import UserLoginForm, RegisterForm, AddAgentForm, UserAccountForm
 from apps.organization.models import Organization
+from apps.team.models import Team
+from apps.userprofile.forms import UserProfileForm
 
 User = get_user_model()
 
@@ -58,9 +60,30 @@ class UserLoginView(LoginView):
 
 
 @login_required
-def my_profile(request):
-    user = request.user
-    return render(request, 'account/profile.html')
+def my_profile(request, pk):
+    user = User.objects.filter(pk=pk).get()
+    teams = Team.objects.filter(organization=user.organizations.first())
+    if request.method == 'POST':
+        user_form = UserAccountForm(request.POST, instance=user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=user.userprofile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, f'Profile updated successfully')
+
+            return redirect('profile', pk=user.pk)
+    else:
+        user_form = UserAccountForm(instance=user)
+        profile_form = UserProfileForm(instance=user.userprofile)
+
+    contex = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'user': user,
+        'teams': teams,
+    }
+
+    return render(request, 'account/profile.html', contex)
 
 
 class AllAgentsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
