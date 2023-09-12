@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView
 
 from apps.client.models import Client
@@ -33,10 +33,9 @@ class DashboardView(LoginRequiredMixin, ListView):
                                                    ).order_by('-created_at')[0:5]
             context['clients'] = Client.objects.filter(organization=self.request.user.organizations.first()
                                                        ).order_by('-created_at')[0:5]
-            context['agents'] = User.objects.filter(organizations=self.request.user.organization,
-                                                    )
+            context['agents'] = User.objects.filter(organizations=self.request.user.organization)[0:5]
             context['organization'] = self.request.user.organizations.filter(members=self.request.user).get()
-            context['teams'] = self.request.user.organization.team_set.all()
+            context['teams'] = self.request.user.organization.team_set.all()[0:5]
         return context
 
     def get_queryset(self):

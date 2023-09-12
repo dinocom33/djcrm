@@ -5,6 +5,15 @@ from apps.lead.models import Lead
 
 @admin.register(Lead)
 class LeadAdmin(admin.ModelAdmin):
+
+    def get_queryset(self, request):
+        if request.user.is_superuser and request.user.is_org_owner:
+            return Lead.objects.all()
+
+        if request.user.is_org_owner:
+            return Lead.objects.filter(
+                organization=request.user.organization)
+
     list_display = ['name', 'email', 'organization', 'team', 'created_by', 'priority', 'status', 'created_at', 'updated_at']
     list_filter = ['name', 'email', 'created_by__email', 'priority', 'status', 'created_at', 'updated_at']
     search_fields = ['name', 'email', 'created_by__email', 'priority', 'status', 'created_at', 'updated_at']

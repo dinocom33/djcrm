@@ -58,7 +58,7 @@ class AddAgentForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['email', 'password1', 'password2', 'team']
+        fields = ['first_name', 'last_name', 'email', 'password1', 'password2', 'team']
 
 
 class UserAccountForm(forms.ModelForm):

@@ -8,6 +8,15 @@ from apps.team.models import Team
 
 @admin.register(Organization)
 class OrganizationAdmin(admin.ModelAdmin):
+
+    def get_queryset(self, request):
+        if request.user.is_superuser and request.user.is_org_owner:
+            return Organization.objects.all()
+
+        if request.user.is_org_owner:
+            return Organization.objects.filter(
+                members=request.user)
+
     list_display = ['name', 'owner', 'created_at', 'updated_at', 'teams_count', 'members_count', 'leads_count', 'clients_count']
     list_filter = ['name', 'owner__email', 'created_at', 'updated_at']
     search_fields = ['name', 'owner__email']
@@ -15,7 +24,7 @@ class OrganizationAdmin(admin.ModelAdmin):
     def members_count(self, obj):
         return obj.members.count()
 
-    members_count.short_description = 'Members count'
+    members_count.short_description = 'Agents'
 
     def leads_count(self, obj):
         return Lead.objects.filter(organization=obj).count()

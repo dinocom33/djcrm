@@ -112,6 +112,7 @@ class AllAgentsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 @login_required
 def create_agent(request):
+    teams = Team.objects.filter(organization=request.user.organization)
     if request.method == 'POST':
         form = AddAgentForm(user=request.user, data=request.POST)
         if form.is_valid():
@@ -128,7 +129,8 @@ def create_agent(request):
         form = AddAgentForm(user=request.user)
 
     context = {
-        'form': form
+        'form': form,
+        'teams': teams
     }
 
     return render(request, 'account/add_agent.html', context)
