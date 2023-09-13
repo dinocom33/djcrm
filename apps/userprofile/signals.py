@@ -8,6 +8,7 @@ from django.contrib.auth.signals import user_logged_in
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
+from apps.team.models import Team
 from apps.userprofile.models import Userprofile
 
 User = get_user_model()
@@ -22,3 +23,13 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.userprofile.save()
+
+
+@receiver(post_save, sender=User)
+def add_team_to_superuser(sender, instance, created, **kwargs):
+    if created:
+        team, create = Team.objects.get_or_create(
+            name='Admins',
+        )
+        instance.team = team
+        instance.save()

@@ -33,9 +33,9 @@ class DashboardView(LoginRequiredMixin, ListView):
                                                    ).order_by('-created_at')[0:5]
             context['clients'] = Client.objects.filter(organization=self.request.user.organizations.first()
                                                        ).order_by('-created_at')[0:5]
-            context['agents'] = User.objects.filter(organizations=self.request.user.organization)[0:5]
+            context['agents'] = User.objects.filter(organizations=self.request.user.organizations.first())[0:5]
             context['organization'] = self.request.user.organizations.filter(members=self.request.user).get()
-            context['teams'] = self.request.user.organization.team_set.all()[0:5]
+            context['teams'] = self.request.user.organizations.first().team_set.all()[0:5]
         return context
 
     def get_queryset(self):

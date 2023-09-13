@@ -1,6 +1,8 @@
 from django.contrib.auth.models import UserManager as UM
 from django.contrib.auth.hashers import make_password
 
+# from apps.team.models import Team
+
 
 class UserManager(UM):
     def _create_user(self, email, password, **extra_fields):
@@ -20,6 +22,9 @@ class UserManager(UM):
     def create_superuser(self, email=None, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_org_owner", True)
+        extra_fields.setdefault("is_agent", False)
+        extra_fields.setdefault("team", None)
 
         if extra_fields.get("is_staff") is not True:
             raise ValueError("Superuser must have is_staff=True.")
