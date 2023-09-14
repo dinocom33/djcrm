@@ -68,22 +68,27 @@
                                 </a>
                             </li>
                         {% endif %}
-                        {% if not request.user.is_superuser %}
-                            {% if  request.user.is_org_owner or request.user.is_staff %}
-                                <li>
-                                    <a href="{% url 'all_teams' %}"
-                                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        <i class="fa fa-users"></i>Teams
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'agents' %}"
-                                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        <i class="fa-solid fa-user-group"></i>Agents
-                                    </a>
-                                </li>
-                                </ul>
-                            {% endif %}
+                        {% if  request.user.is_org_owner or request.user.is_staff %}
+                            <li>
+                                <a href="{% url 'add_org_owner' %}"
+                                   class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    <i class="fa-regular fa-user"></i> Add org owner
+                                </a>
+                            </li>
+                            <li>
+                            <li>
+                                <a href="{% url 'all_teams' %}"
+                                   class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    <i class="fa fa-users"></i> Teams
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'agents' %}"
+                                   class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    <i class='fas fa-users-cog'></i> Agents
+                                </a>
+                            </li>
+                            </ul>
                         {% endif %}
                     <div class="py-2">
                         <a href="{% url 'profile' pk=request.user.pk %}"

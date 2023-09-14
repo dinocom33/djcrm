@@ -1,0 +1,31 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% block title %}Add organization owner{% endblock %}
+{% block content %}
+    <div class="container mx-auto py-20 px-0">
+        <h1 class="text-3xl font-semibold text-center mb-4">Add organization owner</h1>
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-md p-8 space-y-4">
+            <form method="post" action="{% url 'add_org_owner' %}" class="space-y-4">
+                {% csrf_token %}
+                <div class="flex flex-col">
+                    {{ user_form.errors }}
+                    <label for="{{ user_form.email.id_for_label }}" class="text-gray-700">Email</label>
+                    {{ user_form.email }}
+                </div>
+                <div class="flex flex-col">
+                    {{ team_form.errors }}
+                    <label for="{{ team_form.team.id_for_label }}" class="text-gray-700">Team</label>
+                    {{ team_form.name }}
+                </div>
+                <div class="flex flex-col">
+                    {{ organization_form.errors }}
+                    <label for="{{ organization_form.name.id_for_label }}" class="text-gray-700">Organization</label>
+                    {{ organization_form.name }}
+                </div>
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-900 transition duration-200">
+                    Submit
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

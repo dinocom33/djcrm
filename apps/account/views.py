@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -9,8 +10,10 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 
-from apps.account.forms import UserLoginForm, RegisterForm, AddAgentForm, UserAccountForm
+from apps.account.forms import UserLoginForm, RegisterForm, AddAgentForm, UserAccountForm, AddOrgOwnerForm
+from apps.organization.forms import AddOrganizationForm
 from apps.organization.models import Organization
+from apps.team.forms import AddTeamForm
 from apps.team.models import Team
 from apps.userprofile.forms import UserProfileForm
 
@@ -93,18 +96,15 @@ class AllAgentsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     paginate_by = 10
 
     def test_func(self):
-        return self.request.user.is_org_owner or self.request.user.is_staff or self.request.user.is_superuser
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['organization'] = self.request.user.organization
-        context['agents'] = self.request.user.organization.members.all()
-        return context
+        return self.request.user.is_staff or self.request.user.is_superuser or self.request.user.is_org_owner
 
     def get_queryset(self):
-        queryset = User.objects.filter(is_agent=True).order_by('email')
+        if self.request.user.is_org_owner and not self.request.user.is_superuser:
+            return Organization.objects.filter(members=self.request.user).first().members.all(
 
-        return queryset
+            )
+
+        return User.objects.all().order_by('email')
 
     def handle_no_permission(self):
         raise Http404()
@@ -134,3 +134,47 @@ def create_agent(request):
     }
 
     return render(request, 'account/add_agent.html', context)
+
+
+@login_required
+def add_org_owner(request):
+    if request.method == 'POST':
+        user_form = AddOrgOwnerForm(request.POST)
+        user_profile_form = UserProfileForm(request.POST)
+        organization_form = AddOrganizationForm(request.POST)
+        team_form = AddTeamForm(request.POST)
+        if user_form.is_valid() and user_profile_form.is_valid() and organization_form.is_valid() and team_form.is_valid():
+            user = user_form.save()
+            organization = organization_form.save(commit=False)
+            team = team_form.save(commit=False)
+            user.is_staff = True
+            user.is_org_owner = True
+            user.is_agent = False
+            user.groups.add(1)
+            organization.owner = user
+            team.created_by = user
+            team.organization = organization
+            # user.organization = organization
+            user.team = team
+            organization.save()
+            team.save()
+            organization.members.set([user])
+            user.save()
+
+            messages.success(request, f'Organization owner {user_form.cleaned_data["email"]} created successfully')
+
+            return redirect('dashboard')
+    else:
+        user_form = AddOrgOwnerForm()
+        user_profile_form = UserProfileForm()
+        organization_form = AddOrganizationForm()
+        team_form = AddTeamForm()
+
+    context = {
+        'user_form': user_form,
+        'user_profile_form': user_profile_form,
+        'organization_form': organization_form,
+        'team_form': team_form,
+    }
+
+    return render(request, 'account/add_org_owner.html', context)

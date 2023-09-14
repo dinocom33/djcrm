@@ -24,12 +24,16 @@ class TeamListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Team
     template_name = 'team/all_teams.html'
     context_object_name = 'teams'
+    paginate_by = 10
 
     def test_func(self):
         return self.request.user.is_org_owner or self.request.user.is_staff or self.request.user.is_superuser
 
     def get_queryset(self):
-        return Team.objects.filter(organization=self.request.user.organizations.first()).order_by('name')
+        if self.request.user.is_org_owner and not self.request.user.is_superuser:
+            return Team.objects.filter(organization=self.request.user.organizations.first()).order_by('name')
+
+        return Team.objects.all().order_by('name')
 
 
 class AddTeamView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):

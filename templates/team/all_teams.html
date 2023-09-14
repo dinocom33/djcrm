@@ -35,6 +35,9 @@
                             Name
                         </th>
                         <th scope="col" class="px-6 py-3">
+                            Organization
+                        </th>
+                        <th scope="col" class="px-6 py-3">
                             Agents
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -62,11 +65,13 @@
                         <tr class="border-b dark:bg-gray-900 dark:border-gray-700 bg-gray-100 {% cycle 'bg-white' 'bg-grey-100' %}">
                             <td class="px-6 py-4 font-medium">{{ team.name }}</td>
 
-                            <td class="px-6 py-4">{{ team.user_set.count }}</td>
+                            <td class="px-6 py-4">{{ team.organization }}</td>
+
+                            <td class="px-6 py-4">{{ team.agents.count }}</td>
 
                             <td class="px-6 py-4">{{ team.leads.count }}</td>
 
-                            <td class="px-6 py-4">{{ team.teams.count }}</td>
+                            <td class="px-6 py-4">{{ team.clients.count }}</td>
 
                             <td class="px-6 py-4">{{ team.created_by }}</td>
 
