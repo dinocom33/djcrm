@@ -19,6 +19,7 @@ class User(AbstractUser):
         'team.Team',
         related_name='agents',
         null=True,
+        blank=True,
         on_delete=models.CASCADE
     )
 

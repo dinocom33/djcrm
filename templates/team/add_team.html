@@ -1,0 +1,17 @@
+{% extends 'common/base.html' %}
+{% load static %}
+{% block title %}Edit team{% endblock %}
+
+{% block content %}
+    <h1 class="text-2xl font-light text-center mt-20">Edit team</h1>
+    <form method="post" action="{% url 'add_team' %}">
+        {% csrf_token %}
+        <div class="flex flex-wrap -mx-3 mb-6 ml-4">
+            {{ form.as_p }}
+        </div>
+        <button type="submit"
+                class="px-5 py-2 mt-4 ml-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900 rounded">Submit
+        </button>
+
+    </form>
+{% endblock %}

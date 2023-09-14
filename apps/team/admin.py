@@ -16,12 +16,14 @@ class TeamAdmin(admin.ModelAdmin):
 
         if request.user.is_org_owner:
             return Team.objects.filter(
-                organization=request.user.organization)
+                organization=request.user.organization,
+            )
 
     list_display = ['name', 'organization', 'created_by', 'created_at', 'updated_at', 'agents_count', 'lead_count', 'clients_count']
     list_filter = ['name', 'created_by__email', 'created_at', 'updated_at']
     search_fields = ['name', 'created_by__email', 'created_at', 'updated_at']
     list_per_page = 15
+    autocomplete_fields = ['created_by', 'organization']
 
     def lead_count(self, obj):
         return Lead.objects.filter(team=obj).count()

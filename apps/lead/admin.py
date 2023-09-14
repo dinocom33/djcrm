@@ -17,7 +17,7 @@ class LeadAdmin(admin.ModelAdmin):
     list_display = ['name', 'email', 'organization', 'team', 'created_by', 'priority', 'status', 'created_at', 'updated_at']
     list_filter = ['name', 'email', 'created_by__email', 'priority', 'status', 'created_at', 'updated_at']
     search_fields = ['name', 'email', 'created_by__email', 'priority', 'status', 'created_at', 'updated_at']
-    autocomplete_fields = ['created_by']
+    autocomplete_fields = ['created_by', 'organization', 'team']
     ordering = ['-created_at']
     list_per_page = 15
     date_hierarchy = 'created_at'

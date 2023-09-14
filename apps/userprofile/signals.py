@@ -27,9 +27,14 @@ def save_user_profile(sender, instance, **kwargs):
 
 @receiver(post_save, sender=User)
 def add_team_to_superuser(sender, instance, created, **kwargs):
-    if created:
-        team, create = Team.objects.get_or_create(
-            name='Admins',
-        )
+    if created and instance.is_superuser:
+        team = Team.objects.filter(name='Admins').first()
+        if not team:
+            team = Team.objects.create(
+                name='Admins',
+                created_by=instance,
+                organization=instance.organizations.first(),
+            )
+
         instance.team = team
         instance.save()

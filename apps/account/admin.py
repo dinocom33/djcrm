@@ -19,7 +19,8 @@ class UserAdmin(UserAdmin):
 
         if request.user.is_org_owner:
             return User.objects.filter(
-                organizations=request.user.organization)
+                organizations=request.user.organization,
+            )
 
     fieldsets = (
         (None, {"fields": ("password",)}),
@@ -61,6 +62,7 @@ class UserAdmin(UserAdmin):
     ordering = ("email", "-is_staff",)
     list_per_page = 15
     readonly_fields = ('last_login', 'date_joined')
+    autocomplete_fields = ['team']
 
     def get_organization(self, obj):
         return Organization.objects.filter(members=obj).first()

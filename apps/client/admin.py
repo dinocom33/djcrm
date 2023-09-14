@@ -20,6 +20,7 @@ class ClientAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at', 'updated_at']
     list_per_page = 15
     date_hierarchy = 'created_at'
+    autocomplete_fields = ['converted_by', 'organization', 'team', 'lead_agent']
 
     fieldsets = [
         ('Personal information', {

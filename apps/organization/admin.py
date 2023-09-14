@@ -20,6 +20,7 @@ class OrganizationAdmin(admin.ModelAdmin):
     list_display = ['name', 'owner', 'created_at', 'updated_at', 'teams_count', 'members_count', 'leads_count', 'clients_count']
     list_filter = ['name', 'owner__email', 'created_at', 'updated_at']
     search_fields = ['name', 'owner__email']
+    autocomplete_fields = ['members']
 
     def members_count(self, obj):
         return obj.members.count()

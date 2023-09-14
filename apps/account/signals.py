@@ -11,15 +11,14 @@ User = get_user_model()
 @receiver(post_save, sender=User)
 def create_super_user(sender, instance, created, **kwargs):
     if instance.is_superuser:
-        organization, create = Organization.objects.get_or_create(
-            name='Super Admin'
-        )
 
-        organization.members.add(instance)
+        organization = Organization.objects.filter(name='Super Admin').first()
 
-        team, create = Team.objects.get_or_create(
-            name='Admins',
-        )
-
-        instance.team = team
-
+        if not organization:
+            Organization.objects.create(
+                name='Super Admin',
+                owner=instance
+            )
+            instance.organization.members.add(instance)
+        else:
+            organization.members.add(instance)
