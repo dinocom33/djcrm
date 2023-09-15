@@ -69,12 +69,14 @@
                             </li>
                         {% endif %}
                         {% if  request.user.is_org_owner or request.user.is_staff %}
-                            <li>
-                                <a href="{% url 'add_org_owner' %}"
-                                   class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                    <i class="fa-regular fa-user"></i> Add org owner
-                                </a>
-                            </li>
+                            {% if request.user.is_superuser %}
+                                <li>
+                                    <a href="{% url 'add_org_owner' %}"
+                                       class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                        <i class="fa-regular fa-user"></i> Add org owner
+                                    </a>
+                                </li>
+                            {% endif %}
                             <li>
                             <li>
                                 <a href="{% url 'all_teams' %}"

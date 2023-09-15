@@ -65,7 +65,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'djcrm.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -86,6 +85,14 @@ DATABASES = {
 #         "PORT": os.getenv('DATABASE_PORT', None),
 #     }
 # }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST', None)
+EMAIL_USE_TLS = bool(int(os.getenv('EMAIL_USE_TLS', 0)))
+EMAIL_PORT = os.getenv('EMAIL_PORT', 0)
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', None)
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', None)
+CONTACT_FORM_EMAIL = os.getenv('CONTACT_FORM_EMAIL', None)
 
 AUTH_PASSWORD_VALIDATORS = [
     # {
@@ -109,7 +116,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/

@@ -3,7 +3,6 @@ from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 
 from apps.organization.models import Organization
-from apps.team.models import Team
 
 User = get_user_model()
 

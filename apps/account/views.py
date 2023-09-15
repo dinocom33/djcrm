@@ -1,13 +1,21 @@
+import random
+
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.views import LoginView, PasswordResetView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.http import Http404
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy, reverse
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from django.views.generic import CreateView, ListView
 
 from apps.account.forms import UserLoginForm, RegisterForm, AddAgentForm, UserAccountForm, AddOrgOwnerForm
@@ -140,39 +148,54 @@ def create_agent(request):
 def add_org_owner(request):
     if request.method == 'POST':
         user_form = AddOrgOwnerForm(request.POST)
-        user_profile_form = UserProfileForm(request.POST)
         organization_form = AddOrganizationForm(request.POST)
         team_form = AddTeamForm(request.POST)
-        if user_form.is_valid() and user_profile_form.is_valid() and organization_form.is_valid() and team_form.is_valid():
+
+        if user_form.is_valid() and organization_form.is_valid() and team_form.is_valid():
             user = user_form.save()
+
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = default_token_generator.make_token(user)
+
             organization = organization_form.save(commit=False)
             team = team_form.save(commit=False)
+            team.name = team_form.cleaned_data['name']
             user.is_staff = True
             user.is_org_owner = True
             user.is_agent = False
             user.groups.add(1)
             organization.owner = user
+            organization.save()
             team.created_by = user
             team.organization = organization
-            # user.organization = organization
-            user.team = team
-            organization.save()
             team.save()
             organization.members.set([user])
+            user.team = team
+            user.password = make_password(f"{random.randint(0, 1000)}")
             user.save()
+
+            reset_password_url = reverse('password_reset_confirm', args=(uid, token))
+            reset_password_url = request.build_absolute_uri(reset_password_url)
+
+            current_site = get_current_site(request)
+            subject = 'Reset Your Password'
+            message = f'Please click on the following link to reset your password:\n\n{reset_password_url}\n\n'
+            message += f'If you didn\'t request this, please ignore this email.\n\n'
+            message += f'Thanks for using {current_site.name}!'
+            from_email = 'your_email@example.com'  # Replace with your email
+            recipient_list = [user.email]
+            send_mail(subject, message, from_email, recipient_list)
 
             messages.success(request, f'Organization owner {user_form.cleaned_data["email"]} created successfully')
 
             return redirect('dashboard')
     else:
         user_form = AddOrgOwnerForm()
-        user_profile_form = UserProfileForm()
         organization_form = AddOrganizationForm()
         team_form = AddTeamForm()
 
     context = {
         'user_form': user_form,
-        'user_profile_form': user_profile_form,
         'organization_form': organization_form,
         'team_form': team_form,
     }

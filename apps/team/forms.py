@@ -1,6 +1,6 @@
 from django import forms
 
-from apps.team.models import Team
+from .models import Team
 
 
 class AddTeamForm(forms.ModelForm):
