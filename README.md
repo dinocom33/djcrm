@@ -37,7 +37,7 @@ Follow these steps to set up the Basic CRM Application:
 2. Navigate to the project directory:
 
    ```bash
-   cd basic-crm
+   cd djcrm
 
 3. Install the required dependencies using pip:
 
