@@ -15,8 +15,9 @@
             </div>
 
             <p style="color: red"><strong>{{ form.password.errors|striptags }}</strong></p>
+            <p style="color: red"><strong>{{ form.non_field_errors|striptags }}</strong></p>
             <div class="pl-2 border border-slate-300 rounded-md">
-                <label for="email"><i class="fa-solid fa-lock text-white"></i></label>
+                <label for="password"><i class="fa-solid fa-lock text-white"></i></label>
                 <input type="password" id="password" name="password" placeholder="password"
                        class="px-2 py-2 w-96 border-0 focus:outline-0"/>
             </div>
@@ -30,6 +31,12 @@
                 Don't have an account?
                 <a class="text-blue-600 hover:underline" href="{% url 'register' %}">
                     Sign Up
+                </a>
+            </div>
+            <div class="mt-6  text-white">
+                Forgot your password?
+                <a class="text-blue-600 hover:underline" href="{% url 'password-reset' %}">
+                    Password reset
                 </a>
             </div>
         </form>

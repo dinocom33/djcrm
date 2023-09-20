@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm
 
 User = get_user_model()
 
@@ -71,3 +71,15 @@ class AddOrgOwnerForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'team']
+
+
+class ResetPasswordForm(PasswordResetForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['new_password1', 'new_password2']
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if not get_user_model().objects.filter(email=email).exists():
+            raise forms.ValidationError('User with this email does not exist.')
+        return email

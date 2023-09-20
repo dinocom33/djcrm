@@ -3,6 +3,7 @@ import random
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.tokens import default_token_generator
@@ -18,7 +19,8 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views.generic import CreateView, ListView
 
-from apps.account.forms import UserLoginForm, RegisterForm, AddAgentForm, UserAccountForm, AddOrgOwnerForm
+from apps.account.forms import UserLoginForm, RegisterForm, AddAgentForm, UserAccountForm, AddOrgOwnerForm, \
+    ResetPasswordForm
 from apps.organization.forms import AddOrganizationForm
 from apps.organization.models import Organization
 from apps.team.forms import AddTeamForm
@@ -174,17 +176,10 @@ def add_org_owner(request):
             user.password = make_password(f"{random.randint(0, 1000)}")
             user.save()
 
-            reset_password_url = reverse('password_reset_confirm', args=(uid, token))
-            reset_password_url = request.build_absolute_uri(reset_password_url)
+            reset_password_form = PasswordResetForm(data={'email': user.email})
 
-            current_site = get_current_site(request)
-            subject = 'Reset Your Password'
-            message = f'Please click on the following link to reset your password:\n\n{reset_password_url}\n\n'
-            message += f'If you didn\'t request this, please ignore this email.\n\n'
-            message += f'Thanks for using {current_site.name}!'
-            from_email = 'your_email@example.com'  # Replace with your email
-            recipient_list = [user.email]
-            send_mail(subject, message, from_email, recipient_list)
+            if reset_password_form.is_valid():
+                reset_password_form.save(request=request)
 
             messages.success(request, f'Organization owner {user_form.cleaned_data["email"]} created successfully')
 
@@ -201,3 +196,14 @@ def add_org_owner(request):
     }
 
     return render(request, 'account/add_org_owner.html', context)
+
+
+class ResetPasswordView(PasswordResetView):
+    form_class = ResetPasswordForm
+    template_name = 'registration/password_reset.html'
+    success_url = reverse_lazy('login')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('dashboard')
+        return super().dispatch(request, *args, **kwargs)
