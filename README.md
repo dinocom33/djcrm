@@ -1,7 +1,8 @@
 # DJCRM (Django CRM)
 
 The Basic CRM Application is a simple Customer Relationship Management (CRM) system designed for managing organizations, teams, agents, leads, and customers. It provides a user-friendly interface for efficiently organizing and handling customer-related data. 
-It is built with Django and PostgreSQL
+It is built with Django and PostgreSQL.
+### still in progress...
 
 ## Table of Contents
 
@@ -53,7 +54,7 @@ To manage the application and its data, you should create a superuser with full 
    ```bash
    python manage.py createsuperuser
 
-During superuser creation, an organization named "Super Admin" and a team named "Admins" are automatically created and the superuser is automatically added to them..
+During superuser creation, an organization named "Super Admin" and a team named "Admins" are automatically created and the superuser is automatically added to them.
 
 2. Follow the prompts to set a username, email, and password for the superuser account.
 
@@ -67,4 +68,4 @@ Once the application is set up and you have created a superuser, you can start u
     python manage.py runserver
 2. Access the admin panel by navigating to http://localhost:8000/admin/ in your web browser.
 3. Log in using the superuser credentials created earlier.
-4. You can now create organizations, teams, agents, leads, and customers, and manage them through the admin panel.
+4. You can now view, create and edit organizations, teams, agents, leads, and customers, and manage them through the admin panel.
