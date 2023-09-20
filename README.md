@@ -1,7 +1,7 @@
 # DJCRM (Django CRM)
 
 The Basic CRM Application is a simple Customer Relationship Management (CRM) system designed for managing organizations, teams, agents, leads, and customers. It provides a user-friendly interface for efficiently organizing and handling customer-related data. 
-It is built with Django and PostgreSQL.
+It is built with Django, Tailwind CSS and PostgreSQL.
 ### still in progress...
 
 ## Table of Contents
