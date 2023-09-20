@@ -53,7 +53,7 @@ To manage the application and its data, you should create a superuser with full 
    ```bash
    python manage.py createsuperuser
 
-   During superuser creation, an organization named "Super Admin" and a team named "Admins" are automatically created and the superuser is automatically added to them..
+During superuser creation, an organization named "Super Admin" and a team named "Admins" are automatically created and the superuser is automatically added to them..
 
 2. Follow the prompts to set a username, email, and password for the superuser account.
 
