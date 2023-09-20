@@ -49,7 +49,7 @@ class UserLoginForm(AuthenticationForm):
         fields = ['username', 'password', 'remember_me', 'first_name', 'last_name']
 
 
-class AddAgentForm(UserCreationForm):
+class AddAgentForm(forms.ModelForm):
 
     def __init__(self, user, *args, **kwargs):
         super(AddAgentForm, self).__init__(*args, **kwargs)
@@ -58,7 +58,7 @@ class AddAgentForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'password1', 'password2', 'team']
+        fields = ['first_name', 'last_name', 'email', 'team']
 
 
 class UserAccountForm(forms.ModelForm):

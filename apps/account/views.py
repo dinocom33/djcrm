@@ -123,7 +123,7 @@ def create_agent(request):
         form = AddAgentForm(user=request.user, data=request.POST)
         if form.is_valid():
             user = form.save()
-            user.save()
+            # user.save()
             organization = Organization.objects.filter(members=request.user).first()
             members = list(organization.members.all())
             members.append(form.instance)
