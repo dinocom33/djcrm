@@ -6,19 +6,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import LoginView, PasswordResetView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import send_mail, EmailMultiAlternatives
 from django.http import Http404
 from django.shortcuts import render, redirect
-from django.template.loader import render_to_string
-from django.urls import reverse_lazy, reverse
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 
+from apps.account.decorators import superuser_access, org_owner_access
 from apps.account.forms import UserLoginForm, RegisterForm, AddAgentForm, UserAccountForm, AddOrgOwnerForm, \
     ResetPasswordForm
 from apps.organization.forms import AddOrganizationForm
@@ -121,6 +116,7 @@ class AllAgentsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 
 @login_required
+@org_owner_access
 def create_agent(request):
     teams = Team.objects.filter(organization=request.user.organization)
     if request.method == 'POST':
@@ -147,6 +143,7 @@ def create_agent(request):
 
 
 @login_required
+@superuser_access
 def add_org_owner(request):
     if request.method == 'POST':
         user_form = AddOrgOwnerForm(request.POST)
@@ -155,10 +152,6 @@ def add_org_owner(request):
 
         if user_form.is_valid() and organization_form.is_valid() and team_form.is_valid():
             user = user_form.save()
-
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
-            token = default_token_generator.make_token(user)
-
             organization = organization_form.save(commit=False)
             team = team_form.save(commit=False)
             team.name = team_form.cleaned_data['name']
