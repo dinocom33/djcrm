@@ -122,11 +122,20 @@ def create_agent(request):
     if request.method == 'POST':
         form = AddAgentForm(user=request.user, data=request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            user.save()
             organization = Organization.objects.filter(members=request.user).first()
             members = list(organization.members.all())
             members.append(form.instance)
             organization.members.set(members)
+
+            user.password = make_password(f"{random.randint(0, 1000)}")
+            user.save()
+
+            reset_password_form = PasswordResetForm(data={'email': user.email})
+
+            if reset_password_form.is_valid():
+                reset_password_form.save(request=request)
 
             messages.success(request, f'Agent {form.cleaned_data["email"]} created successfully')
 
@@ -166,6 +175,7 @@ def add_org_owner(request):
             team.save()
             organization.members.set([user])
             user.team = team
+
             user.password = make_password(f"{random.randint(0, 1000)}")
             user.save()
 
