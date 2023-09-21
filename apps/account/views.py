@@ -99,12 +99,11 @@ class AllAgentsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 @login_required
 @org_owner_access
 def create_agent(request):
-    teams = Team.objects.filter(organization=request.user.organization)
+    teams = Team.objects.filter(organization=request.user.organizations.first())
     if request.method == 'POST':
         form = AddAgentForm(user=request.user, data=request.POST)
         if form.is_valid():
             user = form.save()
-            # user.save()
             organization = Organization.objects.filter(members=request.user).first()
             members = list(organization.members.all())
             members.append(form.instance)

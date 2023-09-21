@@ -54,7 +54,7 @@ class UserAdmin(UserAdmin):
         ),
     )
     list_display = (
-        "email", "first_name", "last_name", "get_organization", "team", "date_joined", "last_login", "is_staff",
+        "email", "first_name", "last_name", "get_organization", "team", "date_joined", "last_login", "is_superuser", "is_staff",
         "is_agent", "is_org_owner", "leads_per_agent_count", "clients_per_agent_count"
     )
     list_filter = ("email", "team", "is_agent", "is_org_owner", "is_staff", "is_superuser", "is_active")
