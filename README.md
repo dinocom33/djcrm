@@ -12,8 +12,8 @@ It is built with Django, Tailwind CSS and PostgreSQL.
   - [Creating a Superuser](#creating-a-superuser)
 - [Usage](#usage)
 - [User Roles](#user-roles)
-- [Contributing](#contributing)
 - [License](#license)
+- [Snapshots](#snapshots)
 
 ## Features
 
@@ -69,3 +69,17 @@ Once the application is set up and you have created a superuser, you can start u
 2. Access the admin panel by navigating to http://localhost:8000/admin/ in your web browser.
 3. Log in using the superuser credentials created earlier.
 4. You can now view, create and edit organizations, teams, agents, leads, and customers, and manage them through the admin panel.
+
+### User Roles
+
+The application includes the following user roles:
+
+ Superuser: Has full rights in the admin panel, including creating organizations.
+ 
+ Organization Owner: Can create teams, agents, leads, and customers within an organization. Has full rights to manage leads and customers created by agents.
+ 
+ Agent: Can view all leads and agents from their team. Has rights to change/delete only their own data.
+
+### License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
