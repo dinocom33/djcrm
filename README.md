@@ -45,6 +45,8 @@ Follow these steps to set up the Basic CRM Application:
    ```bash
    pip install -r requirements.txt
 
+IMPORTANT - Do not forget to install Tailwind CSS following the instructions provided in the official site.
+
 ### Creating a Superuser
 
 To manage the application and its data, you should create a superuser with full admin rights:
