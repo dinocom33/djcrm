@@ -56,7 +56,7 @@ To manage the application and its data, you should create a superuser with full 
 
 During superuser creation, an organization named "Super Admin" and a team named "Admins" are automatically created and the superuser is automatically added to them.
 
-2. Follow the prompts to set a username, email, and password for the superuser account.
+2. Follow the prompts to set a email(as username) and password for the superuser account.
 
 ### Usage
 
