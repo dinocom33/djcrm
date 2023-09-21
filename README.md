@@ -13,7 +13,7 @@ It is built with Django, Tailwind CSS and PostgreSQL.
 - [Usage](#usage)
 - [User Roles](#user-roles)
 - [License](#license)
-- [Snapshots](#snapshots)
+- [Screenshots](#screenshots)
 
 ## Features
 
@@ -83,3 +83,7 @@ The application includes the following user roles:
 ### License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+### Screenshots
+
+soon...
