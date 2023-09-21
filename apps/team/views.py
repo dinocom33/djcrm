@@ -31,7 +31,7 @@ class TeamListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.is_org_owner and not self.request.user.is_superuser:
-            return Team.objects.filter(organization=self.request.user.organizations.first()).order_by('name')
+            return Team.objects.filter(organization=self.request.user.organizations.first()).order_by('-created_at', 'name')
 
         return Team.objects.all().order_by('name')
 

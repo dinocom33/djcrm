@@ -25,25 +25,6 @@ from apps.userprofile.forms import UserProfileForm
 User = get_user_model()
 
 
-class RegisterView(SuccessMessageMixin, CreateView):
-    template_name = 'common/register.html'
-    form_class = RegisterForm
-    success_url = reverse_lazy('login')
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return redirect('index')
-
-        return super().dispatch(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        # form.instance.organization = self.request.user.organization
-        # form.team = self.request.user.team
-        form.save()
-        messages.success(self.request, f'Registration for user with email {form.cleaned_data["email"]} is successful')
-        return super(RegisterView, self).form_valid(form)
-
-
 class UserLoginView(LoginView):
     template_name = 'common/login.html'
     form_class = UserLoginForm

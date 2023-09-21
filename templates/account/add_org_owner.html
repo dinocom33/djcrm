@@ -2,10 +2,8 @@
 {% load static %}
 {% block title %}Add organization owner{% endblock %}
 {% block content %}
-
-
-    <div class="flex justify-center items-center h-screen w-full bg-blue-100">
-        <div class="w-1/2 bg-white rounded shadow-2xl p-8 m-4">
+    <div class="flex justify-center items-center h-screen w-full bg-blue-100 font-light">
+        <div class="w-1/2 bg-white shadow-xl shadow-gray-700 p-8 m-4 rounded-xl">
             <h1 class="block w-full text-center text-gray-800 text-2xl mb-6">Create organization owner</h1>
             <form action="{% url 'add_org_owner' %}" method="post">
                 {% csrf_token %}

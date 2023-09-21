@@ -16,11 +16,12 @@ def add_lead(request):
         form = AddLeadForm(request.POST)
 
         if form.is_valid():
-            print(request.user.organizations.first())
             lead = form.save(commit=False)
             lead.created_by = request.user
             lead.save()
+
             messages.success(request, f'Lead {lead.name} added successfully')
+
             return redirect('all_leads')
     else:
         form = AddLeadForm()

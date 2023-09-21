@@ -15,3 +15,7 @@ def index(request):
 
 class ContactUsView(TemplateView):
     template_name = 'common/contact.html'
+
+
+class AboutUsView(TemplateView):
+    template_name = 'common/about.html'
