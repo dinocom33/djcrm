@@ -78,7 +78,7 @@ The application includes the following user roles:
 
  Superuser: Has full rights in the admin panel, including creating organizations.
  
- Organization Owner: Can create teams, agents, leads, and customers within an organization. Has full rights to manage leads and customers created by agents.
+ Organization Owner: Can create teams, agents, leads, and clients within an organization. Has full rights to manage leads and customers created by agents.
  
  Agent: Can view all leads and agents from their team. Has rights to change/delete only their own data.
 
