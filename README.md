@@ -68,17 +68,17 @@ Once the application is set up and you have created a superuser, you can start u
 
     ```bash
     python manage.py runserver
-2. Access the admin panel by navigating to http://localhost:8000/admin/ in your web browser.
-3. Log in using the superuser credentials created earlier.
-4. You can now view, create and edit organizations, teams, agents, leads, and customers, and manage them through the admin panel.
+2. Access the admin panel by navigating to http://localhost:8000/ in your web browser.
+4. Log in using the superuser credentials created earlier.
+5. You can now view, create and edit organizations, teams, agents, leads, and customers, and manage them.
 
 ### User Roles
 
 The application includes the following user roles:
 
- Superuser: Has full rights in the admin panel, including creating organizations.
+ Superuser: Has full rights in the admin panel, including creating organizations. Go to "Add org owner" to create an Organization, Team and Organization Owner. When the organization owner is created, an email is automatically sent to the email you entered when creating it. It contains a link to reset the password that was automatically generated during organization owner creation.
  
- Organization Owner: Can create teams, agents, leads, and clients within an organization. Has full rights to manage leads and customers created by agents.
+ Organization Owner: Can create teams, agents, leads, and clients within an organization. Has full rights to manage leads and customers created by agents. Go to "Teams" to view all created teams(if any). Go to "Add Team" to create a new team. It will automatically added to the organization you belong to.
  
  Agent: Can view all leads and agents from their team. Has rights to change/delete only their own data.
 
