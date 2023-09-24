@@ -14,6 +14,20 @@ class AddLeadForm(forms.ModelForm):
     class Meta:
         model = Lead
         fields = ('name', 'email', 'priority', 'status', 'notes')
+        widgets = {
+            'priority': forms.Select(
+                choices=Lead.PRIORITY_CHOICES,
+                attrs={
+                    'class': 'selectpicker form-control rounded-mb-0'
+                }
+            ),
+            'status': forms.Select(
+                choices=Lead.STATUS_CHOICES,
+                attrs={
+                    'class': 'selectpicker form-control rounded-mb-0'
+                }
+            )
+        }
 
 
 class EditLeadForm(forms.ModelForm):

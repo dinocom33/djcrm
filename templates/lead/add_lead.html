@@ -22,18 +22,21 @@
                     <label class="mb-2 text-lg text-gray-900" for="priority">Priority</label>
                     {{ form.priority.errors|striptags }}
                     <select class="border py-2 px-3 text-grey-800 rounded-lg" id="priority" name="priority">
-                        {% for p in form.priority %}
-                            <option value="{{ p.id }}">{{ p }}</option>
-                        {% endfor %}
+                        <option value='low'>Low</option>
+                        <option value='medium'>Medium</option>
+                        <option value='high'>High</option>
+                        <option value='critical'>Critical</option>
                     </select>
                 </div>
                 <div class="flex flex-col mb-4">
                     <label class="mb-2 text-lg text-gray-900" for="status">Status</label>
                     {{ form.status.errors|striptags }}
                     <select class="border py-2 px-3 text-grey-800 rounded-lg" id="status" name="status">
-                        {% for s in form.status %}
-                            <option value="{{ s.id }}">{{ s }}</option>
-                        {% endfor %}
+                        <option value='new'>New</option>
+                        <option value='contacted'>Contacted</option>
+                        <option value='won'>Won</option>
+                        <option value='lost'>Lost</option>
+                        <option value="cancelled">Cancelled</option>
                     </select>
                 </div>
                 <div class="flex flex-col mb-4">

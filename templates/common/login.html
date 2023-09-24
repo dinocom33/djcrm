@@ -2,43 +2,40 @@
 {% load static %}
 {% block title %}Log in{% endblock %}
 {% block content %}
-    <div class="h-screen flex justify-center items-center bg-grey-700">
-        <form method="post" action="{% url 'login' %}"
-              class="bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% px-10 py-8 rounded-lg drop-shadow-lg space-y-5">
-            {% csrf_token %}
-            <h1 class="text-2xl font-light text-white">Sign In</h1>
-            <p style="color: red"><strong>{{ form.username.errors|striptags }}</strong></p>
-            <div class="pl-2 border border-slate-300 rounded-md">
-                <label for="username"><i class="fa-solid fa-envelope text-white"></i></label>
-                <input type="text" id="username" name="username" placeholder="email"
-                       class="px-2 py-2 w-96 border-0 focus:outline-0"/>
-            </div>
+    <div class="flex justify-center items-center h-screen w-full bg-blue-100 font-light">
+        <div class="bg-white shadow-xl shadow-gray-700 p-8 m-4 rounded-xl">
+            <form method="post" action="{% url 'login' %}"
+                  class="px-10 py-8 rounded-lg drop-shadow-lg space-y-5">
+                {% csrf_token %}
+                <h1 class="text-2xl font-light text-gray-500">Sign In</h1>
+                <p style="color: red"><strong>{{ form.username.errors|striptags }}</strong></p>
+                <div class="pl-2 border border-slate-300 rounded-md">
+                    <label for="username"><i class="fa-solid fa-envelope text-gray-500"></i></label>
+                    <input type="text" id="username" name="username" placeholder="email"
+                           class="px-2 py-2 w-96 border-0 rounded-r-lg focus:outline-0"/>
+                </div>
 
-            <p style="color: red"><strong>{{ form.password.errors|striptags }}</strong></p>
-            <p style="color: red"><strong>{{ form.non_field_errors|striptags }}</strong></p>
-            <div class="pl-2 border border-slate-300 rounded-md">
-                <label for="password"><i class="fa-solid fa-lock text-white"></i></label>
-                <input type="password" id="password" name="password" placeholder="password"
-                       class="px-2 py-2 w-96 border-0 focus:outline-0"/>
-            </div>
+                <p style="color: red"><strong>{{ form.password.errors|striptags }}</strong></p>
+                <p style="color: red"><strong>{{ form.non_field_errors|striptags }}</strong></p>
+                <div class="pl-2 border border-slate-300 rounded-md">
+                    <label for="password"><i class="fa-solid fa-lock text-gray-500"></i></label>
+                    <input type="password" id="password" name="password" placeholder="password"
+                           class="px-2 py-2 w-96 border-0 rounded-r-lg focus:outline-0"/>
+                </div>
 
-            <button type="submit" class="w-full px-5 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-900 rounded">
-                <i class="fa-solid fa-right-to-bracket mr-2"></i>
-                Sign In
-            </button>
-            <input type="hidden" name="next" value="{{ next }}"/>
-{#            <div class="mt-6  text-white">#}
-{#                Don't have an account?#}
-{#                <a class="text-blue-600 hover:underline" href="{% url 'register' %}">#}
-{#                    Sign Up#}
-{#                </a>#}
-{#            </div>#}
-            <div class="mt-6  text-white">
-                Forgot your password?
-                <a class="text-blue-600 hover:underline" href="{% url 'password-reset' %}">
-                    Password reset
-                </a>
-            </div>
-        </form>
+                <button type="submit"
+                        class="w-full px-5 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-900 rounded">
+                    <i class="fa-solid fa-right-to-bracket mr-2"></i>
+                    Sign In
+                </button>
+                <input type="hidden" name="next" value="{{ next }}"/>
+                <div class="mt-6  text-gray-500">
+                    Forgot your password?
+                    <a class="text-blue-600 hover:underline" href="{% url 'password-reset' %}">
+                        Password reset
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}
