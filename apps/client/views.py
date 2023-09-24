@@ -72,21 +72,25 @@ class ClientDetailsView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 @login_required
 def edit_client(request, pk):
     if request.user.is_agent:
-        client = Client.objects.filter(lead_agent=request.user,
-                                       pk=pk,
-                                       organization=request.user.organizations.first(),
-                                       team=request.user.team,
-                                       ).get()
+        client = Client.objects.filter(
+            lead_agent=request.user,
+            pk=pk,
+            organization=request.user.organizations.first(),
+            team=request.user.team,
+        ).get()
     else:
-        client = Client.objects.get(pk=pk,
-                                    organization=request.user.organizations.first(),
-                                    )
+        client = Client.objects.get(
+            pk=pk,
+            organization=request.user.organizations.first(),
+        )
 
     if request.method == 'POST':
         form = EditClientForm(request.POST, instance=client)
         if form.is_valid():
             form.save()
+
             messages.success(request, f'Client "{client.name}" updated successfully')
+
             return redirect('client_details', pk=client.pk)
     else:
         form = EditClientForm(instance=client)

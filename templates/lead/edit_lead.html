@@ -5,35 +5,36 @@
 
     <div class="flex justify-center items-center h-screen w-full bg-blue-100 font-light">
         <div class="w-1/2 bg-white shadow-xl shadow-gray-700 p-8 m-4 rounded-xl">
+            <button class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-600 transition duration-200"
+                    onclick="history.back()">Go Back
+            </button>
             <h1 class="block w-full text-center text-gray-800 text-2xl mb-6">Edit lead</h1>
             <form action="{% url 'edit_lead' lead.pk %}" method="post">
                 {% csrf_token %}
                 <div class="flex flex-col mb-4">
                     <label class="mb-2 text-lg text-gray-900" for="name">Name</label>
                     {{ form.name.errors|striptags }}
-                    <input class="border py-2 px-3 text-grey-800 rounded-lg" value="{{ form.name.value }}" type="text" name="name" id="name">
+                    <input class="border py-2 px-3 text-grey-800 rounded-lg" value="{{ form.name.value }}" type="text"
+                           name="name" id="name">
                 </div>
                 <div class="flex flex-col mb-4">
                     <label class="mb-2 text-lg text-gray-900" for="email">Email</label>
                     {{ form.email.errors|striptags }}
-                    <input class="border py-2 px-3 text-grey-800 rounded-lg" value="{{ form.email.value }}" type="text" name="email" id="email">
+                    <input class="border py-2 px-3 text-grey-800 rounded-lg" value="{{ form.email.value }}" type="text"
+                           name="email" id="email">
                 </div>
                 <div class="flex flex-col mb-4">
                     <label class="mb-2 text-lg text-gray-900" for="priority">Priority</label>
                     {{ form.priority.errors|striptags }}
                     <select class="border py-2 px-3 text-grey-800 rounded-lg" id="priority" name="priority">
-                        {% for p in form.priority %}
-                            <option value="{{ p.id }}">{{ p }}</option>
-                        {% endfor %}
+                        <option value={{ form.priority }}</option>
                     </select>
                 </div>
                 <div class="flex flex-col mb-4">
                     <label class="mb-2 text-lg text-gray-900" for="status">Status</label>
                     {{ form.status.errors|striptags }}
                     <select class="border py-2 px-3 text-grey-800 rounded-lg" id="status" name="status">
-                        {% for s in form.status %}
-                            <option value="{{ s.id }}">{{ s }}</option>
-                        {% endfor %}
+                        <option value={{ form.status }}</option>
                     </select>
                 </div>
                 <div class="flex flex-col mb-4">

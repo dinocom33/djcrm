@@ -7,15 +7,13 @@ from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, PasswordResetView
-from django.contrib.messages.views import SuccessMessageMixin
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView
+from django.views.generic import ListView
 
 from apps.account.decorators import superuser_access, org_owner_access
-from apps.account.forms import UserLoginForm, RegisterForm, AddAgentForm, UserAccountForm, AddOrgOwnerForm, \
-    ResetPasswordForm
+from apps.account.forms import UserLoginForm, AddAgentForm, UserAccountForm, AddOrgOwnerForm, ResetPasswordForm
 from apps.organization.forms import AddOrganizationForm
 from apps.organization.models import Organization
 from apps.team.forms import AddTeamForm

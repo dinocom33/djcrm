@@ -3,67 +3,73 @@
 {% block title %}Lead Details{% endblock %}
 
 {% block content %}
-    <div class="container mx-auto py-20 px-5">
-        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-md">
-            <div class="p-6">
-                <h1 class="text-3xl font-semibold text-center mb-4">{{ lead.name }}</h1>
-
-                <div class="mb-4">
-                    <p class="font-semibold text-gray-700">Team:</p>
-                    <p class="text-gray-600">{{ lead.team }}</p>
-                </div>
-
-                <div class="mb-4">
-                    <p class="font-semibold text-gray-700">Priority:</p>
-                    <p class="text-gray-600">{{ lead.priority }}</p>
-                </div>
-
-                <div class="mb-4">
-                    <p class="font-semibold text-gray-700">Status:</p>
-                    <p class="text-gray-600">{{ lead.status }}</p>
-                </div>
-
-                <div class="mb-4">
-                    <p class="font-semibold text-gray-700">Created by:</p>
-                    <p class="text-gray-600">{{ lead.created_by }}</p>
-                </div>
-
-                <div class="mb-4">
-                    <p class="font-semibold text-gray-700">Created at:</p>
-                    <p class="text-gray-600">{{ lead.created_at|date:"d-M-Y H:i" }}</p>
-                </div>
-
-                <div class="mb-4">
-                    <p class="font-semibold text-gray-700">Updated at:</p>
-                    <p class="text-gray-600">{{ lead.updated_at|date:"d-M-Y H:i" }}</p>
-                </div>
-
-                {% if lead.notes %}
-                    <div class="mb-4">
-                        <p class="font-semibold text-gray-700">Notes:</p>
-                        <p class="text-gray-600">{{ lead.notes }}</p>
+    <section class="flex justify-center items-center h-screen w-full bg-blue-100 font-light">
+        <div class="flex justify-center items-center h-screen w-full bg-blue-100 font-light">
+            <div class="w-1/2 bg-white shadow-xl shadow-gray-700 p-8 m-4 rounded-xl">
+                <h1 class="block w-full text-center font-medium text-gray-800 text-2xl mb-6">{{ lead.name }}</h1>
+                <form method="get">
+                    <div class="flex justify-evenly">
+                        <div class="flex flex-col mb-1 w-1/2">
+                            <label class="mb-2 text-lg text-gray-900" for="name">Team</label>
+                            <input disabled class="border py-2 px-3 text-grey-800 rounded-lg" value="{{ lead.team }}">
+                        </div>
+                        <div class="flex flex-col mb-1 w-1/2">
+                            <label class="mb-2 text-lg text-gray-900" for="email">Email</label>
+                            <input disabled class="border py-2 px-3 text-grey-800 rounded-lg" value="{{ lead.email }}">
+                        </div>
                     </div>
-                {% endif %}
-
-                <div class="flex justify-center space-x-4 mt-6">
-                    <a href="{% url 'edit_lead' lead.pk %}"
-                       class="bg-teal-500 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg transition duration-200">
-                        Edit
-                    </a>
-                    <a href="{% url 'convert_to_client' lead.pk %}"
-                       class="bg-teal-500 hover:bg-teal-900 text-white px-4 py-2 rounded-lg transition duration-200">
-                        Convert
-                    </a>
-                    <a href="{% url 'delete_lead' lead.pk %}"
-                       class="bg-red-500 hover:bg-red-900 text-white px-4 py-2 rounded-lg transition duration-200">
-                        Delete
-                    </a>
-                    <a href="{% url 'all_leads' %}"
-                       class="bg-gray-500 hover:bg-green-900 text-white px-4 py-2 rounded-lg transition duration-200">
-                        Back
-                    </a>
-                </div>
+                    <div class="flex flex-col mb-4">
+                        <label class="mb-2 text-lg text-gray-900" for="priority">Priority</label>
+                        <input disabled class="border py-2 px-3 text-grey-800 rounded-lg" value="{{ lead.priority }}">
+                    </div>
+                    <div class="flex flex-col mb-4">
+                        <label class="mb-2 text-lg text-gray-900" for="status">Status</label>
+                        <input disabled class="border py-2 px-3 text-grey-800 rounded-lg" value="{{ lead.status }}">
+                    </div>
+                    <div class="flex flex-col mb-4">
+                        <label class="mb-2 text-lg text-gray-900" for="status">Agent</label>
+                        <input disabled class="border py-2 px-3 text-grey-800 rounded-lg" value="{{ lead.created_by }}">
+                    </div>
+                    <div class="flex justify-evenly">
+                        <div class="flex flex-col mb-1 w-1/2">
+                            <label class="mb-2 text-lg text-gray-900" for="status">Created at</label>
+                            <input disabled class="border py-2 px-3 text-grey-800 rounded-lg"
+                                   value="{{ lead.created_at }}">
+                        </div>
+                        <div class="flex flex-col mb-1 w-1/2">
+                            <label class="mb-2 text-lg text-gray-900" for="status">Updated at</label>
+                            <input disabled class="border py-2 px-3 text-grey-800 rounded-lg"
+                                   value="{{ lead.updated_at }}">
+                        </div>
+                    </div>
+                    {% if lead.notes %}
+                        <div class="flex flex-col mb-4">
+                            <label class="mb-2 text-lg text-gray-900" for="notes">Notes</label>
+                            <textarea disabled class="border py-2 px-3 text-grey-800 rounded-lg">
+                                {{ lead.notes }}
+                            </textarea>
+                        </div>
+                    {% endif %}
+                    <div class="flex justify-center space-x-4 mt-6">
+                        <a href="{% url 'edit_lead' lead.pk %}"
+                           class="bg-teal-500 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg transition duration-200">
+                            Edit
+                        </a>
+                        <a href="{% url 'convert_to_client' lead.pk %}"
+                           class="bg-teal-500 hover:bg-teal-900 text-white px-4 py-2 rounded-lg transition duration-200">
+                            Convert
+                        </a>
+                        <a href="{% url 'delete_lead' lead.pk %}"
+                           class="bg-red-500 hover:bg-red-900 text-white px-4 py-2 rounded-lg transition duration-200">
+                            Delete
+                        </a>
+                        <a href="{% url 'all_leads' %}"
+                           class="bg-gray-500 hover:bg-green-900 text-white px-4 py-2 rounded-lg transition duration-200">
+                            Back
+                        </a>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
+    </section>
 {% endblock %}
