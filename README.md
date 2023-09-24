@@ -45,7 +45,9 @@ Follow these steps to set up the Basic CRM Application:
    ```bash
    pip install -r requirements.txt
 
-IMPORTANT - Do not forget to install Tailwind CSS following the instructions provided in the official site.
+**IMPORTANT** - Do not forget to install Tailwind CSS following the instructions provided in the official site.
+
+***
 
 ### Creating a Superuser
 
@@ -60,6 +62,8 @@ To manage the application and its data, you should create a superuser with full 
    
 During superuser creation, an organization named "Super Admin" and a team named "Admins" are automatically created and the superuser is automatically added to them.
 
+***
+
 ### Usage
 
 Once the application is set up and you have created a superuser, you can start using the DJCRM Application:
@@ -72,19 +76,27 @@ Once the application is set up and you have created a superuser, you can start u
 4. Log in using the superuser credentials created earlier.
 5. You can now view, create and edit organizations, teams, agents, leads, and customers, and manage them.
 
+***
+
 ### User Roles
 
 The application includes the following user roles:
 
- Superuser: Has full rights in the admin panel, including creating organizations. Go to "Add org owner" to create an Organization, Team and Organization Owner. When the organization owner is created, an email is automatically sent to the email you entered when creating it. It contains a link to reset the password that was automatically generated during organization owner creation.
+ **Superuser**: Has full rights in the admin panel, including creating organizations. Go to "Add org owner" to create an Organization, Team and Organization Owner. When the organization owner is created, an email is automatically sent to the email you entered when creating it. It contains a link to reset the password that was automatically generated during organization owner creation.
  
- Organization Owner: Can create teams, agents, leads, and clients within an organization. Has full rights to manage leads and customers created by agents. Go to "Teams" to view all created teams(if any). Go to "Add Team" to create a new team. It will automatically added to the organization you belong to.
+ **Organization Owner**: Can create teams, agents, leads, and clients within an organization. Has full rights to manage leads and customers created by agents. Go to "Teams" to view all created teams(if any). Go to "Add Team" to create a new team. It will automatically added to the organization you belong to. <br>
  
- Agent: Can view all leads and agents from their team. Has rights to change/delete only their own data.
+ **Each organization owner has access to the Django admin panel, but could only see and edit objects from their own organization and no other.**
+
+ **Agent**: Can view all leads and agents from their team. Has rights to change/delete only their own data.
+
+***
 
 ### License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
 
 ### Screenshots
 
