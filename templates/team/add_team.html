@@ -5,6 +5,9 @@
 {% block content %}
     <div class="flex justify-center items-center h-screen w-full bg-blue-100 font-light">
         <div class="w-1/2 bg-white shadow-xl shadow-gray-700 p-8 m-4 rounded-xl">
+            <button class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-600 transition duration-200"
+                    onclick="history.back()">Back
+            </button>
             <h1 class="block w-full text-center text-gray-800 text-2xl mb-6">Create a team</h1>
             <form action="{% url 'add_team' %}" method="post">
                 {% csrf_token %}

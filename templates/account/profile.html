@@ -3,7 +3,7 @@
 {% block title %}My profile{% endblock %}
 
 {% block content %}
-    <div class="text-2xl font-light text-center py-20 px-0">
+    <div class="h-screen bg-blue-100 text-2xl rounded-xl text-center py-20 px-0">
     <h1 class="text-xl">Personal Information</h1>
         <div class="md:grid md:grid-cols-3 md:gap-6 mt-6">
             <div class="md:col-span-1">
@@ -15,10 +15,10 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="mt-5 md:mt-0 md:col-span-2">
+            <div class="mt-5 md:mt-0 md:col-span-2 rounded-xl">
                 <form action="{% url 'profile' user.pk %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="shadow overflow-hidden sm:rounded-md">
+                    <div class="overflow-hidden rounded-xl shadow-lg">
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <div class="grid grid-cols-6 gap-6">
                                 <div class="col-span-6 sm:col-span-3">
@@ -110,11 +110,15 @@
 {#                                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full#}
 {#                                           shadow-sm sm:text-sm border-gray-300 rounded-md">#}
 {#                                </div>#}
-                                <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                                    <input class="button ml-2 mt-6 rounded-lg bg-gray-300" type="file" id="avatar"
+                                <div class="col-span-6 sm:col-span-3 lg:col-span-2 file:bg-blue-500">
+                                    <label class="text-sm font-medium text-gray-900 block mb-2" for="avatar">Upload picture</label>
+                                    <input class="block w-full mb-5 text-xs text-gray-900 border border-gray-300
+                                    rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                                           type="file" id="avatar"
                                            name="avatar" accept="image/*">
                                 </div>
                             </div>
+                            <a href="#" class="text-sm text-blue-700">Reset password</a>
                         </div>
                         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
                             <button type="submit"

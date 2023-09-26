@@ -1,0 +1,34 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% block title %}Add organization owner{% endblock %}
+{% block content %}
+    <div class="flex justify-center items-center h-screen w-full bg-blue-100 font-light">
+        <div class="w-1/2 bg-white shadow-xl shadow-gray-700 p-8 m-4 rounded-xl">
+            <div class="justify-self-end">
+                <a href="{% url 'organization_list' %}"
+                   class="justify-center bg-gray-500 hover:bg-green-900 text-white px-4 py-2 rounded-lg transition duration-200">
+                    Back
+                </a>
+            </div>
+            <h1 class="block w-full text-center text-gray-800 text-2xl mb-6">Create organization</h1>
+            <form action="{% url 'add_organization' %}" method="post">
+                {% csrf_token %}
+                <div class="flex flex-col mb-4">
+                    <label class="mb-2 text-lg text-gray-900" for="name">Organization Name</label>
+                    <input class="border py-2 px-3 text-grey-800 rounded-lg" type="text" name="name" id="name">
+                </div>
+                <div class="flex flex-col mb-4">
+                    <label class="mb-2 text-lg text-gray-900" for="email">Organization Owner email</label>
+                    <input class="border py-2 px-3 text-grey-800 rounded-lg" type="text" name="email" id="email">
+                </div>
+                <div class="flex flex-col mb-4">
+                    <label class="mb-2 text-lg text-gray-900" for="name">Organization Admin Team Name</label>
+                    <input class="border py-2 px-3 text-grey-800 rounded-lg" type="text" name="name" id="name">
+                </div>
+                <button class="block bg-blue-500 hover:bg-blue-800 text-white uppercase text-lg mx-auto p-4 rounded-lg"
+                        type="submit">Create organization
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

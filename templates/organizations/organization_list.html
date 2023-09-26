@@ -4,8 +4,8 @@
 
 {% block content %}
     <div class="h-screen text-2xl bg-blue-100 font-light text-center py-20 px-0">
-        <h1 class="mb-4">All Clients</h1>
-        <div class="flex justify-between pb-4 bg-blue-100 dark:bg-gray-900 ml-2 mr-2">
+        <h1 class="mb-4">All Organizations</h1>
+        <div class="flex justify-between pb-4 bg-blue-100 dark:bg-gray-900 ml-2">
             <label for="table-search" class="sr-only">Search</label>
             <div class="relative mt-1">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -19,15 +19,15 @@
                        class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50
                        focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
                        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                       placeholder="Search for clients">
+                       placeholder="Search for leads">
             </div>
-            <a href="{% url 'add_client' %}" class="inline-flex items-center p-2 pl-3 text-sm font-medium text-center
-                rounded-lg border border-transparent bg-teal-500 hover:bg-blue-900 hover:text-white text-white mr-2">
-                Add client
+            <a href="{% url 'add_organization' %}" class="inline-flex items-center p-2 pl-3 text-sm font-medium text-center
+                rounded-lg border border-transparent bg-teal-500 hover:bg-indigo-500 hover:text-white text-white mr-2">
+                Add organization
             </a>
         </div>
 
-        {% if all_clients %}
+        {% if organizations %}
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg mr-2 ml-2">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -36,16 +36,19 @@
                             Name
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Email
+                            Organization owner
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Team
+                            Teams
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Converted by
+                            Agents
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Lead Agent
+                            Leads
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Clients
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Created at
@@ -59,32 +62,29 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for client in all_clients %}
+                    {% for org in organizations %}
                         <tr class="border-b dark:bg-gray-900 dark:border-gray-700 bg-gray-100 {% cycle 'bg-white' 'bg-grey-100' %}">
-                            <td class="px-6 py-4 font-medium">{{ client.name }}</td>
+                            <td class="px-6 py-4 font-medium">{{ org.name }}</td>
 
-                            <td class="px-6 py-4">{{ client.email }}</td>
+                            <td class="px-6 py-4">{{ org.owner }}</td>
 
-                            <td class="px-6 py-4">{{ client.team }}</td>
+                            <td class="px-6 py-4">{{ org.team_set.count }}</td>
 
-                            <td class="px-6 py-4">{{ client.converted_by }}</td>
+                            <td class="px-6 py-4">{{ org.members.count }}</td>
 
-                            <td class="px-6 py-4">{{ client.lead_agent }}</td>
+                            <td class="px-6 py-4">{{ org.lead_set.count }}</td>
 
-                            <td class="px-6 py-4">{{ client.created_at }}</td>
+                            <td class="px-6 py-4">{{ org.client_set.count }}</td>
 
-                            <td class="px-6 py-4">{{ client.updated_at }}</td>
+                            <td class="px-6 py-4">{{ org.created_at }}</td>
+
+                            <td class="px-6 py-4">{{ org.updated_at }}</td>
 
                             <td class="px-6 py-4">
-                                {% if request.user == client.created_by or request.user == client.converted_by or request.user.is_org_owner or request.user.is_superuser %}
-                                    <a href="{% url 'client_details' client.pk %}"
-                                       class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                        Details
-                                    </a>
-                                {% endif %}
-                                {#                            <a href="{% url 'edit_lead' lead.pk %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">#}
-                                {#                                Edit#}
-                                {#                            </a>#}
+                                <a href="#"
+                                   class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                    Edit
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -92,8 +92,8 @@
                 </table>
             </div>
         {% else %}
-            <div class="text-center">No clients</div>
+            <div class="text-center">No organizations</div>
         {% endif %}
-        {% include 'partials/clients_pagination.html' %}
+        {% include 'partials/leads_pagination.html' %}
     </div>
 {% endblock %}

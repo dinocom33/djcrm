@@ -13,7 +13,7 @@ urlpatterns = [
     path('leads/', include('apps.lead.urls')),
     path('clients/', include('apps.client.urls')),
     path('teams/', include('apps.team.urls')),
-    path('organization/', include('apps.organization.urls')),
+    path('organizations/', include('apps.organization.urls')),
 ]
 
 if settings.DEBUG:

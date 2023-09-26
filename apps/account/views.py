@@ -129,56 +129,6 @@ def create_agent(request):
     return render(request, 'account/add_agent.html', context)
 
 
-@login_required
-@superuser_access
-def add_org_owner(request):
-    if request.method == 'POST':
-        user_form = AddOrgOwnerForm(request.POST)
-        organization_form = AddOrganizationForm(request.POST)
-        team_form = AddTeamForm(request.POST)
-
-        if user_form.is_valid() and organization_form.is_valid() and team_form.is_valid():
-            user = user_form.save()
-            organization = organization_form.save(commit=False)
-            team = team_form.save(commit=False)
-            team.name = team_form.cleaned_data['name']
-            user.is_staff = True
-            user.is_org_owner = True
-            user.is_agent = False
-            user.groups.add(1)
-            organization.owner = user
-            organization.save()
-            team.created_by = user
-            team.organization = organization
-            team.save()
-            organization.members.set([user])
-            user.team = team
-
-            user.password = make_password(f"{random.randint(0, 1000)}")
-            user.save()
-
-            reset_password_form = PasswordResetForm(data={'email': user.email})
-
-            if reset_password_form.is_valid():
-                reset_password_form.save(request=request)
-
-            messages.success(request, f'Organization owner {user_form.cleaned_data["email"]} created successfully')
-
-            return redirect('dashboard')
-    else:
-        user_form = AddOrgOwnerForm()
-        organization_form = AddOrganizationForm()
-        team_form = AddTeamForm()
-
-    context = {
-        'user_form': user_form,
-        'organization_form': organization_form,
-        'team_form': team_form,
-    }
-
-    return render(request, 'account/add_org_owner.html', context)
-
-
 class ResetPasswordView(PasswordResetView):
     form_class = ResetPasswordForm
     template_name = 'registration/password_reset.html'

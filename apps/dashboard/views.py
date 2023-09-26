@@ -6,6 +6,8 @@ from django.views.generic import TemplateView, ListView
 
 from apps.client.models import Client
 from apps.lead.models import Lead
+from apps.organization.models import Organization
+from apps.team.models import Team
 
 User = get_user_model()
 
@@ -18,16 +20,12 @@ class DashboardView(LoginRequiredMixin, ListView):
         if self.request.user.is_agent:
             context['leads'] = Lead.objects.filter(
                 organization=self.request.user.organizations.first(),
-                # team=self.request.user.team,
-                # created_by=self.request.user,
                 converted=False).order_by('-created_at')[0:5]
             context['clients'] = Client.objects.filter(
-                # lead_agent=self.request.user,
                 organization=self.request.user.organizations.first(),
-                # team=self.request.user.team,
             ).order_by('-created_at')[0:5]
             context['organization'] = self.request.user.organizations.filter(members=self.request.user).get()
-        else:
+        elif self.request.user.is_org_owner and not self.request.user.is_superuser:
             context['leads'] = Lead.objects.filter(converted=False,
                                                    organization=self.request.user.organizations.first(),
                                                    ).order_by('-created_at')[0:5]
@@ -36,6 +34,13 @@ class DashboardView(LoginRequiredMixin, ListView):
             context['agents'] = User.objects.filter(organizations=self.request.user.organizations.first())[0:5]
             context['organization'] = self.request.user.organizations.filter(members=self.request.user).get()
             context['teams'] = self.request.user.organizations.first().team_set.all()[0:5]
+        else:
+            context['leads'] = Lead.objects.all()[0:5]
+            context['clients'] = Client.objects.all()[0:5]
+            context['agents'] = User.objects.all()[0:5]
+            context['organizations'] = Organization.objects.all()[0:5]
+            context['teams'] = Team.objects.all()[0:5]
+
         return context
 
     def get_queryset(self):

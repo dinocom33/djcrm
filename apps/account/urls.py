@@ -2,8 +2,7 @@ from django.contrib.auth.views import LogoutView, PasswordResetConfirmView, Pass
     PasswordResetView, PasswordResetDoneView
 from django.urls import path
 
-from apps.account.views import UserLoginView, AllAgentsView, my_profile, create_agent, add_org_owner, \
-    ResetPasswordView
+from apps.account.views import UserLoginView, AllAgentsView, my_profile, create_agent, ResetPasswordView
 from apps.common.views import AboutUsView
 
 urlpatterns = [
@@ -12,7 +11,6 @@ urlpatterns = [
     path('profile/<int:pk>/', my_profile, name='profile'),
     path('add-agent/', create_agent, name='add_agent'),
     path('agents/', AllAgentsView.as_view(), name='agents'),
-    path('add_org_owner/', add_org_owner, name='add_org_owner'),
     path('password-reset/', ResetPasswordView.as_view(template_name='registration/password_reset.html'),
          name='password-reset'),
     path('password-reset/done/', PasswordResetDoneView.as_view(), name='password_reset_done'),
