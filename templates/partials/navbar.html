@@ -1,9 +1,9 @@
 {% load static %}
 {% load tags %}
-<nav class="bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% fixed z-50 top-0 left-0 w-full">
+<nav class="bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% absolute z-50 top-0 left-0 w-full">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="{% url 'index' %}" class="flex items-center">
-            <img src="{% static 'images/crm.png' %}" class="h-8 mr-3" alt="Flowbite Logo"/>
+            <img src="{% static 'images/crm.png' %}" class="h-8 mr-3" alt="Logo"/>
             {% if request.user.organizations %}
                 <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">{% organization_name request.user.organizations.first %}</span>
             {% else %}
