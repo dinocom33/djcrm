@@ -38,6 +38,11 @@
                         <th scope="col" class="px-6 py-3">
                             Email
                         </th>
+                        {% if request.user.is_superuser %}
+                            <th scope="col" class="px-6 py-3">
+                                Organization
+                            </th>
+                        {% endif %}
                         <th scope="col" class="px-6 py-3">
                             Team
                         </th>
@@ -64,6 +69,9 @@
                             <td class="px-6 py-4 font-medium">{{ client.name }}</td>
 
                             <td class="px-6 py-4">{{ client.email }}</td>
+                            {% if request.user.is_superuser %}
+                                <td class="px-6 py-4">{{ client.organization }}</td>
+                            {% endif %}
 
                             <td class="px-6 py-4">{{ client.team }}</td>
 

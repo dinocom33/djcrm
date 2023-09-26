@@ -22,10 +22,12 @@ class AllClientsView(LoginRequiredMixin, ListView):
                 organization=self.request.user.organizations.first(),
                 # team=self.request.user.team,
             ).order_by('-created_at')
-        else:
+        elif self.request.user.is_org_owner and not self.request.user.is_superuser:
             queryset = Client.objects.filter(
                 organization=self.request.user.organization
             ).order_by('-created_at')
+        else:
+            queryset = Client.objects.all().order_by('-created_at')
 
         return queryset
 
