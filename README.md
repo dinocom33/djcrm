@@ -74,7 +74,7 @@ Once the application is set up and you have created a superuser, you can start u
     python manage.py runserver
 2. Access the admin panel by navigating to http://localhost:8000/ in your web browser.
 4. Log in using the superuser credentials created earlier.
-5. You can now view, create and edit organizations, teams, agents, leads, and customers, and manage them.
+5. You can now view, create organizations, teams, agents, leads, and customers, and manage them.
 
 ***
 
