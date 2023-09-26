@@ -3,13 +3,14 @@
 {% block title %}My profile{% endblock %}
 
 {% block content %}
-    <div class="h-screen bg-blue-100 text-2xl rounded-xl text-center py-20 px-0">
-    <h1 class="text-xl">Personal Information</h1>
+    <section class="h-screen text-2xl bg-blue-100 font-light text-center py-20 px-0">
+        <h1 class="text-xl">Personal Information</h1>
         <div class="md:grid md:grid-cols-3 md:gap-6 mt-6">
             <div class="md:col-span-1">
                 <div class="px-4 sm:px-o">
                     {% if request.user.userprofile.avatar %}
-                        <img class="rounded-full" style="width: 400px; height: auto" src="{{ request.user.userprofile.avatar.url }}">
+                        <img class="rounded-full" style="width: 400px; height: auto"
+                             src="{{ request.user.userprofile.avatar.url }}">
                     {% else %}
                         <img src="{% static 'images/default.jpg' %}">
                     {% endif %}
@@ -59,59 +60,60 @@
                                            shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
 
-{#                                <div class="col-span-6 sm:col-span-3">#}
-{#                                    <label for="team" class="block text-sm font-medium text-gray-700">#}
-{#                                        Team#}
-{#                                    </label>#}
-{#                                    <select id="team" name="team" autocomplete="team"#}
-{#                                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white#}
-{#                                            rounded-md shadow-sm focus:outline-none#}
-{#                                            focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">#}
-{#                                        {% for team in teams %}#}
-{#                                            <option>{{ team }}</option>#}
-{#                                        {% endfor %}#}
-{#                                    </select>#}
-{#                                </div>#}
+                                {#                                <div class="col-span-6 sm:col-span-3">#}
+                                {#                                    <label for="team" class="block text-sm font-medium text-gray-700">#}
+                                {#                                        Team#}
+                                {#                                    </label>#}
+                                {#                                    <select id="team" name="team" autocomplete="team"#}
+                                {#                                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white#}
+                                {#                                            rounded-md shadow-sm focus:outline-none#}
+                                {#                                            focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">#}
+                                {#                                        {% for team in teams %}#}
+                                {#                                            <option>{{ team }}</option>#}
+                                {#                                        {% endfor %}#}
+                                {#                                    </select>#}
+                                {#                                </div>#}
 
                                 <div class="col-span-6">
                                     <label for="bio" class="block text-sm font-medium text-gray-700">
                                         Addition information
                                     </label>
                                     <textarea name="bio" id="id_bio"
-                                           autocomplete="bio" placeholder=""
-                                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full
+                                              autocomplete="bio" placeholder=""
+                                              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full
                                            shadow-sm sm:text-base border-gray-300 rounded-md">{{ user.userprofile.bio }}
                                     </textarea>
                                 </div>
 
-{#                                <div class="col-span-6 sm:col-span-6 lg:col-span-2">#}
-{#                                    <label for="city" class="block text-sm font-medium text-gray-700">#}
-{#                                        City#}
-{#                                    </label>#}
-{#                                    <input type="text" name="city" id="city"#}
-{#                                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full#}
-{#                                           shadow-sm sm:text-sm border-gray-300 rounded-md">#}
-{#                                </div>#}
-{##}
-{#                                <div class="col-span-6 sm:col-span-3 lg:col-span-2">#}
-{#                                    <label for="state" class="block text-sm font-medium text-gray-700">#}
-{#                                        State / Province#}
-{#                                    </label>#}
-{#                                    <input type="text" name="state" id="state"#}
-{#                                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full#}
-{#                                           shadow-sm sm:text-sm border-gray-300 rounded-md">#}
-{#                                </div>#}
-{##}
-{#                                <div class="col-span-6 sm:col-span-3 lg:col-span-2">#}
-{#                                    <label for="postal_code" class="block text-sm font-medium text-gray-700">#}
-{#                                        ZIP / Postal#}
-{#                                    </label>#}
-{#                                    <input type="text" name="postal_code" id="postal_code" autocomplete="postal-code"#}
-{#                                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full#}
-{#                                           shadow-sm sm:text-sm border-gray-300 rounded-md">#}
-{#                                </div>#}
+                                {#                                <div class="col-span-6 sm:col-span-6 lg:col-span-2">#}
+                                {#                                    <label for="city" class="block text-sm font-medium text-gray-700">#}
+                                {#                                        City#}
+                                {#                                    </label>#}
+                                {#                                    <input type="text" name="city" id="city"#}
+                                {#                                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full#}
+                                {#                                           shadow-sm sm:text-sm border-gray-300 rounded-md">#}
+                                {#                                </div>#}
+                                {##}
+                                {#                                <div class="col-span-6 sm:col-span-3 lg:col-span-2">#}
+                                {#                                    <label for="state" class="block text-sm font-medium text-gray-700">#}
+                                {#                                        State / Province#}
+                                {#                                    </label>#}
+                                {#                                    <input type="text" name="state" id="state"#}
+                                {#                                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full#}
+                                {#                                           shadow-sm sm:text-sm border-gray-300 rounded-md">#}
+                                {#                                </div>#}
+                                {##}
+                                {#                                <div class="col-span-6 sm:col-span-3 lg:col-span-2">#}
+                                {#                                    <label for="postal_code" class="block text-sm font-medium text-gray-700">#}
+                                {#                                        ZIP / Postal#}
+                                {#                                    </label>#}
+                                {#                                    <input type="text" name="postal_code" id="postal_code" autocomplete="postal-code"#}
+                                {#                                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full#}
+                                {#                                           shadow-sm sm:text-sm border-gray-300 rounded-md">#}
+                                {#                                </div>#}
                                 <div class="col-span-6 sm:col-span-3 lg:col-span-2 file:bg-blue-500">
-                                    <label class="text-sm font-medium text-gray-900 block mb-2" for="avatar">Upload picture</label>
+                                    <label class="text-sm font-medium text-gray-900 block mb-2" for="avatar">Upload
+                                        picture</label>
                                     <input class="block w-full mb-5 text-xs text-gray-900 border border-gray-300
                                     rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
                                            type="file" id="avatar"
@@ -132,5 +134,5 @@
                 </form>
             </div>
         </div>
-    </div>
+    </section>
 {% endblock %}

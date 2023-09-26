@@ -263,117 +263,6 @@
                 <h1 class="text-xl">Dashboard</h1>
                 <div class="flex mt-4 mb-4">
                     <div class="w-1/2 leads scrollable-container">
-                        <h2 class="mb-6 text-lg">Leads</h2>
-                        {% if leads %}
-                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg mr-2 ml-2 mb-4">
-                                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3">
-                                            Name
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Email
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Organization
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Team
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Actions
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for lead in leads %}
-                                        <tr class="border-b dark:bg-gray-900 dark:border-gray-700 bg-gray-100 {% cycle 'bg-white' 'bg-grey-100' %}">
-                                            <td class="px-6 py-4 font-medium">{{ lead.name }}</td>
-
-                                            <td class="px-6 py-4">{{ lead.email }}</td>
-
-                                            <td class="px-6 py-4">{{ lead.organization }}</td>
-
-                                            <td class="px-6 py-4">{{ lead.team }}</td>
-                                            <td class="px-6 py-4">
-                                                {% if request.user == lead.created_by or request.user.is_org_owner or request.user.is_superuser %}
-                                                    <a href="{% url 'lead_details' pk=lead.pk %}"
-                                                       class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                                        Details
-                                                    </a>
-                                                {% endif %}
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        {% else %}
-                            <div class="text-center">No leads</div>
-                        {% endif %}
-                        {% include 'partials/leads_pagination.html' %}
-                    </div>
-
-                    <div class="w-1/2 clients scrollable-container">
-                        <h2 class="mb-6 text-lg">Clients</h2>
-                        {% if clients %}
-                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg mr-2 ml-2">
-                                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3">
-                                            Name
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Email
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Organization
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Team
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Actions
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for client in clients %}
-                                        <tr class="border-b dark:bg-gray-900 dark:border-gray-700 bg-gray-100 {% cycle 'bg-white' 'bg-grey-100' %}">
-                                            <td class="px-6 py-4 font-medium">{{ client.name }}</td>
-
-                                            <td class="px-6 py-4">{{ client.email }}</td>
-
-                                            <td class="px-6 py-4">{{ client.organization }}</td>
-
-                                            <td class="px-6 py-4">{{ client.team }}</td>
-
-                                            <td class="px-6 py-4">
-                                                {% if request.user == client.created_by or request.user == client.converted_by or request.user.is_org_owner or request.user.is_superuser %}
-                                                    <a href="{% url 'client_details' client.pk %}"
-                                                       class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                                        Details
-                                                    </a>
-                                                {% endif %}
-                                                {#                            <a href="{% url 'edit_lead' lead.pk %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">#}
-                                                {#                                Edit#}
-                                                {#                            </a>#}
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        {% else %}
-                            <div class="text-center">No clients</div>
-                        {% endif %}
-                        {% include 'partials/clients_pagination.html' %}
-                    </div>
-                </div>
-                <div class="flex mt-4 mb-4">
-                    <div class="w-1/2 leads scrollable-container">
                         <h2 class="mb-6 text-lg mt-4">Teams</h2>
                         {% if teams %}
                             <div class="relative overflow-x-auto shadow-md sm:rounded-lg mr-2 ml-2">
@@ -492,6 +381,117 @@
                         {% else %}
                             <div class="text-center">No Agents</div>
                         {% endif %}
+                    </div>
+                </div>
+                <div class="flex mt-4 mb-4">
+                    <div class="w-1/2 leads scrollable-container">
+                        <h2 class="mb-6 text-lg">Leads</h2>
+                        {% if leads %}
+                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg mr-2 ml-2 mb-4">
+                                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            Name
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Email
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Organization
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Team
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Actions
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for lead in leads %}
+                                        <tr class="border-b dark:bg-gray-900 dark:border-gray-700 bg-gray-100 {% cycle 'bg-white' 'bg-grey-100' %}">
+                                            <td class="px-6 py-4 font-medium">{{ lead.name }}</td>
+
+                                            <td class="px-6 py-4">{{ lead.email }}</td>
+
+                                            <td class="px-6 py-4">{{ lead.organization }}</td>
+
+                                            <td class="px-6 py-4">{{ lead.team }}</td>
+                                            <td class="px-6 py-4">
+                                                {% if request.user == lead.created_by or request.user.is_org_owner or request.user.is_superuser %}
+                                                    <a href="{% url 'lead_details' pk=lead.pk %}"
+                                                       class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                                        Details
+                                                    </a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="text-center">No leads</div>
+                        {% endif %}
+                        {% include 'partials/leads_pagination.html' %}
+                    </div>
+
+                    <div class="w-1/2 clients scrollable-container">
+                        <h2 class="mb-6 text-lg">Clients</h2>
+                        {% if clients %}
+                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg mr-2 ml-2">
+                                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            Name
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Email
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Organization
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Team
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Actions
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for client in clients %}
+                                        <tr class="border-b dark:bg-gray-900 dark:border-gray-700 bg-gray-100 {% cycle 'bg-white' 'bg-grey-100' %}">
+                                            <td class="px-6 py-4 font-medium">{{ client.name }}</td>
+
+                                            <td class="px-6 py-4">{{ client.email }}</td>
+
+                                            <td class="px-6 py-4">{{ client.organization }}</td>
+
+                                            <td class="px-6 py-4">{{ client.team }}</td>
+
+                                            <td class="px-6 py-4">
+                                                {% if request.user == client.created_by or request.user == client.converted_by or request.user.is_org_owner or request.user.is_superuser %}
+                                                    <a href="{% url 'client_details' client.pk %}"
+                                                       class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                                        Details
+                                                    </a>
+                                                {% endif %}
+                                                {#                            <a href="{% url 'edit_lead' lead.pk %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">#}
+                                                {#                                Edit#}
+                                                {#                            </a>#}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="text-center">No clients</div>
+                        {% endif %}
+                        {% include 'partials/clients_pagination.html' %}
                     </div>
                 </div>
             </div>

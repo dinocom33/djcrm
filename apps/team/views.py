@@ -1,7 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
-from django.views.generic import UpdateView, ListView, CreateView
+from django.urls import reverse_lazy
+from django.views.generic import UpdateView, ListView, CreateView, DeleteView, DetailView
 
 from apps.team.models import Team
 
@@ -10,14 +11,16 @@ class EditTeamView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
     model = Team
     fields = ['name']
     template_name = 'team/edit_team.html'
-    success_url = '/teams'
+
+    def get_success_url(self):
+        return reverse_lazy('all_teams')
 
     def get_success_message(self, cleaned_data):
         return f'Team {self.object.name} was successfully updated'
 
     def test_func(self):
         obj = self.get_object()
-        return obj.created_by == self.request.user or self.request.user.is_superuser or self.request.user.is_org_owner
+        return self.request.user.is_superuser or self.request.user.is_org_owner
 
 
 class TeamListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -31,7 +34,8 @@ class TeamListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.is_org_owner and not self.request.user.is_superuser:
-            return Team.objects.filter(organization=self.request.user.organizations.first()).order_by('-created_at', 'name')
+            return Team.objects.filter(organization=self.request.user.organizations.first()).order_by('-created_at',
+                                                                                                      'name')
 
         return Team.objects.all().order_by('name')
 
@@ -53,3 +57,12 @@ class AddTeamView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, 
         form.instance.organization = self.request.user.organizations.first()
 
         return super().form_valid(form)
+
+
+class DeleteTeamView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
+    model = Team
+    template_name = 'team/delete_team.html'
+    success_url = '/teams'
+
+    def test_func(self):
+        return self.request.user.is_org_owner or self.request.user.is_superuser

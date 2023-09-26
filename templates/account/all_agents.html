@@ -4,7 +4,7 @@
 
 {% block content %}
 
-    <div class="h-screen text-2xl bg-blue-100 font-light text-center py-20 px-0">
+    <section class="h-screen text-2xl bg-blue-100 font-light text-center py-20 px-0">
         <h1 class="mb-4">All Agents</h1>
         <div class="flex justify-between pb-4 bg-blue-100 dark:bg-gray-900 ml-2">
             <label for="table-search" class="sr-only">Search</label>
@@ -94,4 +94,5 @@
             <div class="text-center">No Agents</div>
         {% endif %}
         {% include 'partials/leads_pagination.html' %}
+    </section>
 {% endblock %}
