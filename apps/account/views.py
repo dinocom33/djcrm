@@ -80,13 +80,11 @@ class AllAgentsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     paginate_by = 10
 
     def test_func(self):
-        return self.request.user.is_staff or self.request.user.is_superuser or self.request.user.is_org_owner
+        return self.request.user.is_superuser or self.request.user.is_org_owner
 
     def get_queryset(self):
         if self.request.user.is_org_owner and not self.request.user.is_superuser:
-            return Organization.objects.filter(members=self.request.user).first().members.all(
-
-            )
+            return Organization.objects.filter(members=self.request.user).first().members.all()
 
         return User.objects.all().order_by('email')
 

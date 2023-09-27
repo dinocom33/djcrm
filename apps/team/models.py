@@ -11,12 +11,6 @@ class Team(models.Model):
         max_length=255
     )
 
-    # members = models.ForeignKey(
-    #     User,
-    #     related_name='teams',
-    #     on_delete=models.CASCADE,
-    # )
-
     created_by = models.ForeignKey(
         User,
         related_name='created_by',
