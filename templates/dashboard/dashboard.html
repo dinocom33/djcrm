@@ -5,13 +5,13 @@
 
 {% block content %}
     <section class="h-screen text-2xl bg-blue-100 font-light text-center py-20 px-0">
-        {% if not request.user.is_superuser %}
+        {% if request.user.is_agent %}
             <h1 class="text-xl">Dashboard</h1>
-            <div class="flex mt-4 mb-4">
+            <div class="flex mt-4 mb-4 bg-blue-100">
                 <div class="w-1/2 leads scrollable-container">
                     <h2 class="mb-6 text-lg">Leads</h2>
                     {% if leads %}
-                        <div class="relative overflow-x-auto shadow-md rounded-lg mr-2 ml-2 mb-4">
+                        <div class="relative overflow-x-auto shadow-md rounded-lg">
                             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
@@ -135,7 +135,7 @@
                 </div>
             </div>
             {% if not request.user.is_agent %}
-                <div class="flex mt-4 mb-4">
+                <div class="flex mt-4 mb-4 bg-blue-100">
                     <div class="w-1/2 clients scrollable-container">
                         <h2 class="mb-6 text-lg mt-4">Agents</h2>
                         {% if agents %}
@@ -259,9 +259,9 @@
                 </div>
             {% endif %}
         {% else %}
-            <div class="h-screen text-2xl bg-blue-100 font-light text-center py-20 px-0">
+            <div class="text-2xl bg-blue-100 font-light text-center py-20 px-0">
                 <h1 class="text-xl">Dashboard</h1>
-                <div class="flex mt-4 mb-4">
+                <div class="flex mt-4 mb-4 bg-blue-100">
                     <div class="w-1/2 leads scrollable-container">
                         <h2 class="mb-6 text-lg mt-4">Teams</h2>
                         {% if teams %}
@@ -383,7 +383,7 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="flex mt-4 mb-4">
+                <div class="flex mt-4 mb-4 bg-blue-100">
                     <div class="w-1/2 leads scrollable-container">
                         <h2 class="mb-6 text-lg">Leads</h2>
                         {% if leads %}
@@ -491,7 +491,7 @@
                         {% else %}
                             <div class="text-center">No clients</div>
                         {% endif %}
-                        {% include 'partials/clients_pagination.html' %}
+{#                        {% include 'partials/clients_pagination.html' %}#}
                     </div>
                 </div>
             </div>

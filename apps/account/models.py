@@ -36,5 +36,5 @@ class User(AbstractUser):
         return self.email
 
     class Meta:
-        verbose_name = 'CRM User'
-        verbose_name_plural = 'CRM Users'
+        verbose_name = 'Agent'
+        verbose_name_plural = 'Agents'
