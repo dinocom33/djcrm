@@ -1,10 +1,10 @@
 {% extends 'common/base.html' %}
-{% block title %}All leads{% endblock %}
 {% load static %}
+{% block title %}Client search{% endblock %}
 
 {% block content %}
     <section class="flex flex-col overflow-x-auto h-screen text-2xl bg-blue-100 font-light text-center py-20 px-0">
-        <h1 class="mb-4">All Clients</h1>
+        <h1 class="mb-4">Search results</h1>
         <div class="flex justify-between pb-4 bg-blue-100 dark:bg-gray-900 ml-2">
             <label for="table-search" class="sr-only">Search</label>
             <div class="relative mt-1">
@@ -29,7 +29,7 @@
             </a>
         </div>
 
-        {% if all_clients %}
+        {% if client_search_results %}
             <div class="relative overflow-x-auto shadow-md rounded-lg mr-2 ml-2">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -66,7 +66,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for client in all_clients %}
+                    {% for client in client_search_results %}
                         <tr class="border-b dark:bg-gray-900 dark:border-gray-700 bg-gray-100 {% cycle 'bg-white' 'bg-grey-100' %}">
                             <td class="px-6 py-4 font-medium">{{ client.name }}</td>
 
@@ -92,9 +92,6 @@
                                         Details
                                     </a>
                                 {% endif %}
-                                {#                            <a href="{% url 'edit_lead' lead.pk %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">#}
-                                {#                                Edit#}
-                                {#                            </a>#}
                             </td>
                         </tr>
                     {% endfor %}
@@ -102,7 +99,7 @@
                 </table>
             </div>
         {% else %}
-            <div class="text-center">No clients</div>
+            <div class="text-center">No clients found</div>
         {% endif %}
         {% include 'partials/clients_pagination.html' %}
     </section>

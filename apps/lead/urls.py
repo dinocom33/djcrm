@@ -1,7 +1,7 @@
 from django.urls import path
 
 from apps.lead.views import (add_lead, AllLeadsView, LeadsFilterView, edit_lead, convert_to_client, DeleteLeadView,
-                             DetailLeadView)
+                             DetailLeadView, SearchLeadView)
 
 urlpatterns = [
     path('', AllLeadsView.as_view(), name='all_leads'),
@@ -11,4 +11,5 @@ urlpatterns = [
     path('<int:pk>/convert-to-client/', convert_to_client, name='convert_to_client'),
     path('filtered/<str:status>/', LeadsFilterView.as_view(), name='leads_filter'),
     path('add-lead/', add_lead, name='add_lead'),
+    path('search/', SearchLeadView.as_view(), name='lead_search'),
 ]

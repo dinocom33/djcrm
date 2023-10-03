@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, ListView, CreateView, DeleteView, DetailView
@@ -65,3 +66,18 @@ class DeleteTeamView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
 
     def test_func(self):
         return self.request.user.is_org_owner or self.request.user.is_superuser
+
+
+class SearchTeamView(ListView):
+    model = Team
+    template_name = 'team/team_search_results.html'
+    context_object_name = 'team_search_results'
+    paginate_by = 6
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Team.objects.filter(Q(name__icontains=query),
+                                       organization=self.request.user.organization).order_by('-created_at')
+
+        return Team.objects.filter(organization=self.request.user.organization).order_by('-created_at')

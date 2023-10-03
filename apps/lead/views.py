@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DeleteView, DetailView
@@ -167,3 +168,19 @@ def convert_to_client(request, pk):
     messages.success(request, f'Lead "{lead.name}" converted to client successfully')
 
     return redirect('all_leads')
+
+
+class SearchLeadView(ListView):
+    model = Lead
+    template_name = 'lead/lead_search_results.html'
+    context_object_name = 'lead_search_results'
+    paginate_by = 6
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Lead.objects.filter(Q(name__icontains=query) |
+                                       Q(email__icontains=query),
+                                       organization=self.request.user.organizations.first()).order_by('-created_at')
+
+        return Lead.objects.filter(organization=self.request.user.organizations.first())().order_by('-created_at')

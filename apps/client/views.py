@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DeleteView, DetailView
@@ -110,3 +111,19 @@ class DeleteClientView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('all_clients')
+
+
+class SearchClientView(ListView):
+    model = Client
+    template_name = 'client/client_search_results.html'
+    context_object_name = 'client_search_results'
+    paginate_by = 6
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Client.objects.filter(Q(name__icontains=query) |
+                                         Q(email__icontains=query),
+                                         organization=self.request.user.organizations.first()).order_by('-created_at')
+
+        return Client.objects.filter(organization=self.request.user.organizations.first()).order_by('-created_at')

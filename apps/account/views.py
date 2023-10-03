@@ -7,6 +7,7 @@ from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import LoginView, PasswordResetView
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -136,3 +137,18 @@ class ResetPasswordView(PasswordResetView):
         if request.user.is_authenticated:
             return redirect('dashboard')
         return super().dispatch(request, *args, **kwargs)
+
+
+class SearchAgentView(ListView):
+    model = User
+    template_name = 'account/agent_search_results.html'
+    context_object_name = 'agent_search_results'
+    paginate_by = 6
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return User.objects.filter(Q(email__icontains=query),
+                                       organization=self.request.user.organizations.first())
+
+        return User.objects.filter(organization=self.request.user.organizations.first())

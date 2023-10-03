@@ -4,32 +4,8 @@
 
 {% block content %}
     <section class="flex sm:ml-0 flex-col overflow-x-auto h-screen text-2xl bg-blue-100 font-light text-center py-20 px-0">
-        <h1 class="text-xl">All Leads</h1>
-        <div class="flex justify-between pb-4 bg-blue-100 dark:bg-gray-900 ml-2">
-            <label for="table-search" class="sr-only">Search</label>
-            <div class="relative mt-1">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"></path>
-                    </svg>
-                </div>
-                <form action="{% url 'lead_search' %}" method="get">
-                    <input type="text" id="search" name="q"
-                           class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50
-                           focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
-                           dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                           placeholder="Search for leads">
-                </form>
-            </div>
-            <a href="{% url 'add_lead' %}" class="inline-flex items-center p-2 pl-3 text-sm font-medium text-center
-                rounded-lg border border-transparent bg-teal-500 hover:bg-blue-900 hover:text-white text-white mr-2">
-                Add lead
-            </a>
-        </div>
-
-        {% if all_leads %}
+        <h1 class="mb-6 text-xl">Search results</h1>
+        {% if lead_search_results %}
             <div class="md:flex relative overflow-x-auto shadow-md rounded-lg mr-2 ml-2">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 overflow-hidden sm:shadow-lg my-5">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -69,7 +45,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for lead in all_leads %}
+                    {% for lead in lead_search_results %}
                         <tr class="border-b dark:bg-gray-900 dark:border-gray-700 bg-gray-100 {% cycle 'bg-white' 'bg-grey-100' %}">
                             <td class="px-6 py-4 font-medium">{{ lead.name }}</td>
 
@@ -104,7 +80,7 @@
                 </table>
             </div>
         {% else %}
-            <div class="text-center">No leads</div>
+            <div class="text-center">No leads found</div>
         {% endif %}
         {% include 'partials/leads_pagination.html' %}
     </section>
