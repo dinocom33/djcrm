@@ -19,7 +19,6 @@ class EditTeamView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin,
         return f'Team {self.object.name} was successfully updated'
 
     def test_func(self):
-        obj = self.get_object()
         return self.request.user.is_superuser or self.request.user.is_org_owner
 
 

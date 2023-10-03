@@ -78,6 +78,3 @@ class UserAdmin(UserAdmin):
         return Client.objects.filter(converted_by=obj).count()
 
     clients_per_agent_count.short_description = 'Clients'
-
-
-# admin.site.unregister(Group)

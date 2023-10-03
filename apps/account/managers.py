@@ -1,8 +1,6 @@
 from django.contrib.auth.models import UserManager as UM
 from django.contrib.auth.hashers import make_password
 
-# from apps.team.models import Team
-
 
 class UserManager(UM):
     def _create_user(self, email, password, **extra_fields):
