@@ -6,6 +6,12 @@
 
     <section class="h-screen text-2xl bg-blue-100 font-light text-center py-20 px-0">
         <h1 class="mb-4">Search results</h1>
+        <div class="flex justify-end pb-4 bg-blue-100 dark:bg-gray-900 ml-2">
+            <a href="{% url 'agents' %}" class="inline-flex items-center p-2 pl-3 text-sm font-medium text-center
+                rounded-lg border border-transparent bg-teal-500 hover:bg-blue-900 hover:text-white text-white mr-2">
+                All agents
+            </a>
+        </div>
         {% if agent_search_results %}
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg mr-2 ml-2">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -69,6 +75,6 @@
         {% else %}
             <div class="text-center">No Agents found</div>
         {% endif %}
-        {% include 'partials/leads_pagination.html' %}
+        {% include 'partials/agents_pagination.html' %}
     </section>
 {% endblock %}

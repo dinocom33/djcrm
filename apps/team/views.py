@@ -72,7 +72,7 @@ class SearchTeamView(ListView):
     model = Team
     template_name = 'team/team_search_results.html'
     context_object_name = 'team_search_results'
-    paginate_by = 6
+    paginate_by = 10
 
     def get_queryset(self):
         query = self.request.GET.get('q')

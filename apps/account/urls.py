@@ -2,7 +2,8 @@ from django.contrib.auth.views import LogoutView, PasswordResetConfirmView, Pass
     PasswordResetView, PasswordResetDoneView
 from django.urls import path
 
-from apps.account.views import UserLoginView, AllAgentsView, my_profile, create_agent, ResetPasswordView, SearchAgentView
+from apps.account.views import UserLoginView, AllAgentsView, my_profile, create_agent, ResetPasswordView, \
+    SearchAgentView
 from apps.common.views import AboutUsView
 
 urlpatterns = [

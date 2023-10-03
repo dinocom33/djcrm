@@ -174,7 +174,7 @@ class SearchLeadView(ListView):
     model = Lead
     template_name = 'lead/lead_search_results.html'
     context_object_name = 'lead_search_results'
-    paginate_by = 6
+    paginate_by = 10
 
     def get_queryset(self):
         query = self.request.GET.get('q')

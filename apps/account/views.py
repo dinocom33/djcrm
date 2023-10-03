@@ -143,12 +143,14 @@ class SearchAgentView(ListView):
     model = User
     template_name = 'account/agent_search_results.html'
     context_object_name = 'agent_search_results'
-    paginate_by = 6
+    paginate_by = 10
 
     def get_queryset(self):
         query = self.request.GET.get('q')
         if query:
-            return User.objects.filter(Q(email__icontains=query),
-                                       organization=self.request.user.organizations.first())
+            return User.objects.filter(Q(email__icontains=query) |
+                                       Q(first_name__icontains=query) |
+                                       Q(last_name__icontains=query),
+                                       organizations=self.request.user.organization).order_by('-date_joined')
 
-        return User.objects.filter(organization=self.request.user.organizations.first())
+        return User.objects.filter(organizations=self.request.user.organization)

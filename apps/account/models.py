@@ -11,7 +11,7 @@ class User(AbstractUser):
         _("email address"),
         unique=True,
         validators=[
-            validators.EmailValidator(),
+            validators.EmailValidator(message='Please enter a valid email address'),
         ]
     )
 
