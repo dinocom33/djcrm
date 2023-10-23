@@ -3,10 +3,10 @@ from django.db import models
 
 
 class ContactModel(models.Model):
-    email = models.EmailField(
-        max_length=254,
+    email = models.CharField(
+        max_length=50,
         validators=[
-            validators.EmailValidator(message="Please enter a valid email address.!@#")
+            validators.EmailValidator(message='The email address is not valid! Please try again!')
         ]
     )
     subject = models.CharField(

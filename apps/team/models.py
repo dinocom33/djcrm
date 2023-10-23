@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from apps.lead.validators import name_validator
 from apps.organization.models import Organization
 
 User = get_user_model()
@@ -8,7 +9,10 @@ User = get_user_model()
 
 class Team(models.Model):
     name = models.CharField(
-        max_length=255
+        max_length=255,
+        validators=[
+            name_validator,
+        ]
     )
 
     created_by = models.ForeignKey(

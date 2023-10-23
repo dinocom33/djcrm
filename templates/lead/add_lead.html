@@ -16,17 +16,17 @@
                 {% csrf_token %}
                 <div class="flex flex-col mb-4">
                     <label class="mb-2 text-lg text-gray-900" for="name">Name</label>
-                    {{ form.name.errors|striptags }}
+                    <p class="text-red-500">{{ form.name.errors|striptags }}</p>
                     <input class="border py-2 px-3 text-grey-800 rounded-lg" type="text" name="name" id="name">
                 </div>
                 <div class="flex flex-col mb-4">
                     <label class="mb-2 text-lg text-gray-900" for="email">Email</label>
-                    {{ form.email.errors|striptags }}
+                    <p class="text-red-500">{{ form.email.errors|striptags }}</p>
                     <input class="border py-2 px-3 text-grey-800 rounded-lg" type="text" name="email" id="email">
                 </div>
                 <div class="flex flex-col mb-4">
                     <label class="mb-2 text-lg text-gray-900" for="priority">Priority</label>
-                    {{ form.priority.errors|striptags }}
+                    <p class="text-red-500">{{ form.priority.errors|striptags }}</p>
                     <select class="border py-2 px-3 text-grey-800 rounded-lg" id="priority" name="priority">
                         <option value='low'>Low</option>
                         <option value='medium'>Medium</option>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="flex flex-col mb-4">
                     <label class="mb-2 text-lg text-gray-900" for="status">Status</label>
-                    {{ form.status.errors|striptags }}
+                    <p class="text-red-500">{{ form.status.errors|striptags }}</p>
                     <select class="border py-2 px-3 text-grey-800 rounded-lg" id="status" name="status">
                         <option value='new'>New</option>
                         <option value='contacted'>Contacted</option>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="flex flex-col mb-4">
                     <label class="mb-2 text-lg text-gray-900" for="notes">Notes</label>
-                    {{ form.notes.errors|striptags }}
+                    <p class="text-red-500">{{ form.notes.errors|striptags }}</p>
                     <textarea class="border py-2 px-3 text-grey-800 rounded-lg" type="text" name="notes"
                               id="notes"></textarea>
                 </div>

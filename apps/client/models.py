@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.core import validators
 from django.db import models
 
+from apps.lead.validators import name_validator
 from apps.organization.models import Organization
 from apps.team.models import Team
 
@@ -10,15 +11,19 @@ User = get_user_model()
 
 
 class Client(models.Model):
-    NAME_LENGTH = 255
+    NAME_LENGTH = 50
 
     name = models.CharField(
         max_length=NAME_LENGTH,
+        validators=[
+            name_validator,
+        ]
     )
 
-    email = models.EmailField(
+    email = models.CharField(
+        max_length=50,
         validators=[
-            validators.EmailValidator(),
+            validators.EmailValidator(message='The email address is not valid! Please try again!'),
         ],
     )
 

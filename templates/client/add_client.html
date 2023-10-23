@@ -14,17 +14,17 @@
                 {% csrf_token %}
                 <div class="flex flex-col mb-4">
                     <label class="mb-2 text-lg text-gray-900" for="name">Name</label>
-                    {{ form.name.errors|striptags }}
+                    <p class="text-red-500">{{ form.name.errors|striptags }}</p>
                     <input class="border py-2 px-3 text-grey-800 rounded-lg" type="text" name="name" id="name">
                 </div>
                 <div class="flex flex-col mb-4">
                     <label class="mb-2 text-lg text-gray-900" for="email">Email</label>
-                    {{ form.name.errors|striptags }}
+                    <p class="text-red-500">{{ form.email.errors|striptags }}</p>
                     <input class="border py-2 px-3 text-grey-800 rounded-lg" type="text" name="email" id="email">
                 </div>
                 <div class="flex flex-col mb-4">
                     <label class="mb-2 text-lg text-gray-900" for="notes">Notes</label>
-                    {{ form.name.errors|striptags }}
+                    <p class="text-red-500">{{ form.notes.errors|striptags }}</p>
                     <textarea class="border py-2 px-3 text-grey-800 rounded-lg" type="text" name="notes"
                               id="notes"></textarea>
                 </div>

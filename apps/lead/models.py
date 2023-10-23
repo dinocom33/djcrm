@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.core import validators
 from django.db import models
 
+from apps.lead.validators import name_validator
 from apps.organization.models import Organization
 from apps.team.models import Team
 
@@ -22,7 +23,7 @@ class Lead(models.Model):
         (CRITICAL, 'Critical'),
     ]
 
-    NAME_LENGTH = 255
+    NAME_LENGTH = 50
     PRIORITY_LENGTH = max(len(p[0]) for p in PRIORITY_CHOICES)
 
     NEW = 'new'
@@ -43,11 +44,15 @@ class Lead(models.Model):
 
     name = models.CharField(
         max_length=NAME_LENGTH,
+        validators=[
+            name_validator,
+        ]
     )
 
-    email = models.EmailField(
+    email = models.CharField(
+        max_length=50,
         validators=[
-            validators.EmailValidator(),
+            validators.EmailValidator(message='The email address is not valid! Please try again!'),
         ],
     )
 
