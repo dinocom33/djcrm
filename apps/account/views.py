@@ -11,7 +11,7 @@ from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, UpdateView
+from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 
 from apps.account.decorators import superuser_access, org_owner_access
 from apps.account.forms import UserLoginForm, AddAgentForm, UserAccountForm, AddOrgOwnerForm, ResetPasswordForm, \
@@ -182,3 +182,17 @@ def edit_agent(request, pk):
     }
 
     return render(request, 'account/edit_agent.html', context)
+
+
+class AgentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = User
+    template_name = 'account/delete_agent.html'
+
+    def get_success_url(self):
+        return reverse_lazy('agents')
+
+    def test_func(self):
+        return self.request.user.is_org_owner or self.request.user.is_superuser
+
+    def handle_no_permission(self):
+        raise Http404
