@@ -83,3 +83,9 @@ class ResetPasswordForm(PasswordResetForm):
         if not get_user_model().objects.filter(email=email).exists():
             raise forms.ValidationError('User with this email does not exist.')
         return email
+
+
+class EditAgentForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['team']

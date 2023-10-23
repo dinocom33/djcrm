@@ -3,7 +3,7 @@ from django.contrib.auth.views import LogoutView, PasswordResetConfirmView, Pass
 from django.urls import path
 
 from apps.account.views import UserLoginView, AllAgentsView, my_profile, create_agent, ResetPasswordView, \
-    SearchAgentView
+    SearchAgentView, edit_agent
 from apps.common.views import AboutUsView
 
 urlpatterns = [
@@ -22,4 +22,5 @@ urlpatterns = [
          name='password_reset_complete'),
     path('about/', AboutUsView.as_view(), name='about'),
     path('search/', SearchAgentView.as_view(), name='agent_search'),
+    path('<int:pk>/edit/', edit_agent, name='edit_agent'),
 ]

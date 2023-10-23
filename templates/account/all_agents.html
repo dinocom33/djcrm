@@ -81,9 +81,9 @@
                             <td class="px-6 py-4">{{ agent.client_set.count }}</td>
 
                             <td class="px-6 py-4">
-                                <a href="#"
+                                <a href="{% url 'edit_agent' agent.pk %}"
                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                    Details
+                                    Edit
                                 </a>
                             </td>
                         </tr>

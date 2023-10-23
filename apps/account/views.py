@@ -11,10 +11,11 @@ from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView, UpdateView
 
 from apps.account.decorators import superuser_access, org_owner_access
-from apps.account.forms import UserLoginForm, AddAgentForm, UserAccountForm, AddOrgOwnerForm, ResetPasswordForm
+from apps.account.forms import UserLoginForm, AddAgentForm, UserAccountForm, AddOrgOwnerForm, ResetPasswordForm, \
+    EditAgentForm
 from apps.organization.forms import AddOrganizationForm
 from apps.organization.models import Organization
 from apps.team.forms import AddTeamForm
@@ -154,3 +155,30 @@ class SearchAgentView(ListView):
                                        organizations=self.request.user.organization).order_by('-date_joined')
 
         return User.objects.filter(organizations=self.request.user.organization)
+
+
+@login_required
+@org_owner_access
+def edit_agent(request, pk):
+    user = User.objects.filter(pk=pk).get()
+    email = user.email
+    teams = Team.objects.filter(organization=request.user.organizations.first())
+    if request.method == 'POST':
+        form = EditAgentForm(request.POST, instance=user)
+        if form.is_valid():
+            user = form.save()
+            user.email = email
+            user.save()
+            messages.success(request, f'Agents profile updated successfully')
+
+            return redirect('agents')
+    else:
+        form = EditAgentForm(instance=user)
+
+    context = {
+        'form': form,
+        'teams': teams,
+        'agent': user
+    }
+
+    return render(request, 'account/edit_agent.html', context)
