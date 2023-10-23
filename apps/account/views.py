@@ -113,7 +113,7 @@ def create_agent(request):
             reset_password_form = PasswordResetForm(data={'email': user.email})
 
             if reset_password_form.is_valid():
-                reset_password_form.save(request=request)
+                reset_password_form.save(request=request, email_template_name='registration/new_agent_email.html')
 
             messages.success(request, f'Agent {form.cleaned_data["email"]} created successfully')
 
