@@ -14,17 +14,23 @@ class UserFilterList(admin.SimpleListFilter):
         if not request.user.is_superuser:
             visible_users = model_admin.get_visible_users(request)
             # Sub user - return same group users
-            return ((user.id, user.email) for user in visible_users)
+            return ((user.id, user) for user in visible_users)
         else:
             # Superuser - return all users
-            return ((user.id, user.email) for user in User.objects.filter())
+            return ((user.id, user) for user in User.objects.filter())
 
     def queryset(self, request, queryset):
-        return queryset.filter(converted_by=self.value()) if self.value() else queryset
+        return queryset.filter(user=self.value()) if self.value() else queryset
 
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
+
+    def get_queryset(self, request):
+        if request.user.is_superuser and request.user.is_org_owner:
+            return Client.objects.all()
+
+        return Client.objects.filter(organization=request.user.organization)
 
     list_display = ['name', 'email', 'organization', 'team', 'converted_by', 'lead_agent', 'created_at', 'updated_at',
                     'notes']
