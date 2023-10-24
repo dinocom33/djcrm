@@ -6,6 +6,7 @@ from django.contrib.auth.admin import UserAdmin
 from apps.client.models import Client
 from apps.lead.models import Lead
 from apps.organization.models import Organization
+from apps.team.models import Team
 
 User = get_user_model()
 
@@ -18,9 +19,11 @@ class UserAdmin(UserAdmin):
             return User.objects.all()
 
         if request.user.is_org_owner:
-            return User.objects.filter(
-                organizations=request.user.organization,
-            )
+            qs = super(UserAdmin, self).get_queryset(request)
+            return qs.filter(organizations=request.user.organization)
+            # return User.objects.filter(
+            #     organizations=request.user.organization,
+            # )
 
     fieldsets = (
         (None, {"fields": ("password",)}),
@@ -58,7 +61,7 @@ class UserAdmin(UserAdmin):
         "is_agent", "is_org_owner", "leads_per_agent_count", "clients_per_agent_count"
     )
     list_filter = ("email", "team", "is_agent", "is_org_owner", "is_staff", "is_superuser", "is_active")
-    search_fields = ("email", "first_name", "last_name", "team")
+    search_fields = ("email", "first_name", "last_name")
     ordering = ("email", "-is_staff",)
     list_per_page = 15
     readonly_fields = ('last_login', 'date_joined')

@@ -16,7 +16,7 @@ class TeamAdmin(admin.ModelAdmin):
 
         if request.user.is_org_owner:
             return Team.objects.filter(
-                organization=request.user.organizations.first(),
+                organization=request.user.organization,
             )
 
     list_display = ['name', 'organization', 'created_by', 'created_at', 'updated_at', 'agents_count', 'lead_count', 'clients_count']
