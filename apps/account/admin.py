@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.admin import SimpleListFilter
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.admin import UserAdmin
@@ -11,6 +12,26 @@ from apps.team.models import Team
 User = get_user_model()
 
 
+class TeamFilterList(SimpleListFilter):
+    title = _('Team')
+    parameter_name = 'team'
+
+    def lookups(self, request, model_admin):
+        if request.user.is_superuser and request.user.is_org_owner:
+            return (
+                (team.pk, team.name) for team in Team.objects.all()
+            )
+        else:
+            return (
+                (team.pk, team.name) for team in Team.objects.filter(organization=request.user.organization)
+            )
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(team=self.value())
+        return queryset
+
+
 @admin.register(User)
 class UserAdmin(UserAdmin):
 
@@ -18,12 +39,7 @@ class UserAdmin(UserAdmin):
         if request.user.is_superuser and request.user.is_org_owner:
             return User.objects.all()
 
-        if request.user.is_org_owner:
-            qs = super(UserAdmin, self).get_queryset(request)
-            return qs.filter(organizations=request.user.organization)
-            # return User.objects.filter(
-            #     organizations=request.user.organization,
-            # )
+        return User.objects.filter(organizations=request.user.organization)
 
     fieldsets = (
         (None, {"fields": ("password",)}),
@@ -57,10 +73,10 @@ class UserAdmin(UserAdmin):
         ),
     )
     list_display = (
-        "email", "first_name", "last_name", "get_organization", "team", "date_joined", "last_login", "is_superuser", "is_staff",
-        "is_agent", "is_org_owner", "leads_per_agent_count", "clients_per_agent_count"
+        "email", "first_name", "last_name", "get_organization", "team", "date_joined", "last_login",
+        "leads_per_agent_count", "clients_per_agent_count", "is_agent", "is_org_owner", "is_superuser"
     )
-    list_filter = ("email", "team", "is_agent", "is_org_owner", "is_staff", "is_superuser", "is_active")
+    list_filter = ("email", TeamFilterList, "is_agent", "is_org_owner", "is_superuser", "is_active")
     search_fields = ("email", "first_name", "last_name")
     ordering = ("email", "-is_staff",)
     list_per_page = 15
@@ -81,3 +97,8 @@ class UserAdmin(UserAdmin):
         return Client.objects.filter(converted_by=obj).count()
 
     clients_per_agent_count.short_description = 'Clients'
+
+    def get_teams(self, obj):
+        return obj.organization.team_set.all()
+
+    get_teams.short_description = 'Teams'
