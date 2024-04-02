@@ -6,6 +6,11 @@ from apps.lead.models import Lead
 User = get_user_model()
 
 
+class CreatedByFilter(admin.SimpleListFilter):
+    title = 'Created by'
+    parameter_name = 'created_by'
+    
+
 @admin.register(Lead)
 class LeadAdmin(admin.ModelAdmin):
 
@@ -14,8 +19,7 @@ class LeadAdmin(admin.ModelAdmin):
             return Lead.objects.all()
 
         if request.user.is_org_owner:
-            return Lead.objects.filter(
-                organization=request.user.organization)
+            return Lead.objects.filter(organization=request.user.organization)
 
     list_display = ['name', 'email', 'organization', 'team', 'created_by', 'priority', 'status', 'created_at',
                     'updated_at']
